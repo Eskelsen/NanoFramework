@@ -13,9 +13,15 @@ chmod +x ./nano
 Inicie o framework
 ```shell
 ./nano start
-```
-Caso não seja habilitável (ou Windows)
-```shell
+
+# Caso não seja habilitável (ou Windows)
 php nano start
 ```
 Requer a função shell_exec habilitada
+### Usando nginx
+Acrescente este código ao seu nginx.conf
+```shell
+location = /nano {
+    deny all;
+}
+```
