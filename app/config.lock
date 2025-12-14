@@ -1,0 +1,17 @@
+<?php
+
+# NanoFramework Build Config
+
+# Environment
+define('APP' , __DIR__ . '/');
+define('TMP', APP . 'tmp/');
+define('DEV', true);
+
+# Dev Mode: Show Errors
+ini_set('display_errors', DEV);
+ini_set('display_startup_erros', DEV);
+error_reporting(E_ALL);
+
+# Erros Log Output
+ini_set('log_errors', DEV);
+ini_set('error_log', TMP  . 'errors.log');
