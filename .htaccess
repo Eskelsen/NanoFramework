@@ -17,12 +17,6 @@ php_value date.timezone 'America/Sao_Paulo'
 
 AddDefaultCharset UTF-8
 
-php_flag log_errors On
-
-php_value error_log "errors.log"
-
-AddHandler application/x-httpd-alt-php80 .php
-
 <Files "nano">
     Require all denied
 </Files>
