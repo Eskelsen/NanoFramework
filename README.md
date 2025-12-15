@@ -6,19 +6,16 @@ Clone o repositório
 ```shell
 git clone https://github.com/Eskelsen/NanoFramework.git .
 ```
-Habilite o utilitário
+Rode o composer
 ```shell
-chmod +x ./nano
+composer install
 ```
-Inicie o framework
+Crie o arquivo de configurações a partir do modelo
 ```shell
-./nano start
-
-# Caso não seja habilitável (ou Windows)
-php nano start
+cp app/config.lock app/config.php
 ```
-Requer a função shell_exec habilitada
-### Usando nginx
+Configure as constantes conforme necessário
+## Usando nginx
 Acrescente este código ao seu nginx.conf
 ```shell
 location = /nano {

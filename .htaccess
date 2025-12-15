@@ -16,7 +16,3 @@ RewriteRule .* - [e=HTTP_AUTHORIZATION:%1]
 php_value date.timezone 'America/Sao_Paulo'
 
 AddDefaultCharset UTF-8
-
-<Files "nano">
-    Require all denied
-</Files>

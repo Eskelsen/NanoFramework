@@ -2,7 +2,7 @@
 
 # Redirect
 
-refresh('/', 8);
+refresh('/exemplos', 4);
 
 ?>
 <!doctype html>
@@ -37,9 +37,5 @@ refresh('/', 8);
     <p>&nbsp;</p>
     <p>&nbsp;</p>
     <p class="blink_me">Redirecionando...</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    <p><a href="https://microframeworks.com/" target="_blank">Microframeworks &copy;</a></p>
 </body>
 </html>
