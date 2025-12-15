@@ -7,6 +7,11 @@ define('APP' , __DIR__ . '/');
 define('TMP', APP . 'tmp/');
 define('DEV', true);
 
+# Domain
+define('BASE', '/'); # '/' padrão, '/sub', para subdiretório
+define('DOMAIN', 'nano.mfwks.com');
+define('SITE', 'https://' . DOMAIN . BASE);
+
 # Dev Mode: Show Errors
 ini_set('display_errors', DEV);
 ini_set('display_startup_erros', DEV);

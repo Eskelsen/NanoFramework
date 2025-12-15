@@ -1,4 +1,10 @@
+<?php
 
+# Redirect
+
+refresh('/', 8);
+
+?>
 <!doctype html>
 <html lang="pt-br">
 
@@ -7,7 +13,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Microframeworks.com">
   <meta name="author" content="Microframeworks">
-  <title>NanoFramework » Microframeworks.com</title>
+  <title>Sinta-se em casa...</title>
   <link rel="icon" href="https://microframeworks.com/tools/ups/icon.png">
   
   <style>
@@ -27,10 +33,10 @@
 <body>
     <p>&nbsp;</p>
     <p>&nbsp;</p>
-    <h1>NanoFramework</h1>
+    <h1>Sinta-se em casa...</h1>
     <p>&nbsp;</p>
     <p>&nbsp;</p>
-    <p><a href="<?= url('exemplos'); ?>" style="color: #0a0">Exemplos</a></p>
+    <p class="blink_me">Redirecionando...</p>
     <p>&nbsp;</p>
     <p>&nbsp;</p>
     <p>&nbsp;</p>

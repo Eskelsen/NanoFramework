@@ -8,6 +8,7 @@ if (!is_file(WEB . 'vendor/autoload.php')) {
 
 include WEB . 'vendor/autoload.php';
 include WEB . 'app/config.php';
+include APP . 'functions.php';
 
 use App\Core\Web;
 
