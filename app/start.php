@@ -10,6 +10,4 @@ include WEB . 'vendor/autoload.php';
 include WEB . 'app/config.php';
 include APP . 'functions.php';
 
-use App\Core\Web;
-
-Web::match();
+App\Core\Web::match();

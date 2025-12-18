@@ -47,8 +47,9 @@
 
     <div class="container">
         <h1>Exemplos</h1>
-        <p><a href="<?= url('um/exemplo'); ?>">Um exemplo</a>
-        | <a href="<?= url('um/outro/exemplo'); ?>">Um outro exemplo</a>
+        <p><a href="<?= url('um/exemplo'); ?>">Exemplo</a>
+        | <a href="<?= url('um/outro/exemplo'); ?>">Outro exemplo</a>
+        | <a href="<?= url('email'); ?>">E-mail</a>
         | <a href="<?= url('redirect'); ?>">Redirecionamento</a></p>
         <p>&nbsp;</p>
         <p><a href="<?= url('/'); ?>" style="color: #0a0;font-weight: bold">Voltar</a></p>
