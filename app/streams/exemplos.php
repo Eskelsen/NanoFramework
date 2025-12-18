@@ -14,7 +14,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color: #f5f5f5;
+            background-color: #fff;
             font-family: -apple-system, BlinkMacSystemFont, 
                          "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             color: #2f2f2f;
