@@ -4,3 +4,7 @@
 !/app/tmp/.gitkeep
 
 app/config.php
+
+*.sqlite
+
+*test.php
