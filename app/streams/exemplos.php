@@ -46,10 +46,12 @@
 <body>
 
     <div class="container">
+        <a href=""><img class="mb-4" src="<?=  url('ups/icon.png'); ?>" alt="" width="120"></a>
+        <!-- Chemistry icons created by Freepik - Flaticon in https://www.flaticon.com/free-icons/chemistry -->
         <h1>Exemplos</h1>
         <p><a href="<?= url('um/exemplo'); ?>">Exemplo</a>
         | <a href="<?= url('um/outro/exemplo'); ?>">Outro exemplo</a>
-        | <a href="<?= url('email'); ?>">E-mail</a>
+        | <a href="<?= url('registrar'); ?>">Acesso</a>
         | <a href="<?= url('redirect'); ?>">Redirecionamento</a></p>
         <p>&nbsp;</p>
         <p><a href="<?= url('/'); ?>" style="color: #0a0;font-weight: bold">Voltar</a></p>

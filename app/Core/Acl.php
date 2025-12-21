@@ -4,6 +4,14 @@ namespace App\Core;
 
 class Acl
 {
+    public static function allow($list, $url = '/login'): void
+    {
+        $role = $_SESSION['role'] ?? 'guest';
+        if (!(in_array($role, is_array($list) ? $list : array_map('trim',explode(',',$list)), true))) {
+			redirect($url);
+		}
+    }
+
     public static function can($list): bool
     {
         $role = $_SESSION['role'] ?? 'guest';

@@ -1,10 +1,10 @@
 <?php
 
-# 404 Not Found
+# 401 Unauthorized
 
-header('HTTP/1.1 404 Not Found');
+header('HTTP/1.1 401 Unauthorized');
 
-$title	= 'Não encontrado | ' . $app;
+$title	= 'Não autorizado | ' . $app;
 $footer = '<a href="' . $site . '">' . $mark . ' &copy;</a>';
 $gray 	= '100%';
 

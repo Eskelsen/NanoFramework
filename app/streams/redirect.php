@@ -31,6 +31,8 @@ refresh('/exemplos', 4);
   </style>
 </head>
 <body>
+    <a href=""><img class="mb-4" src="<?=  url('ups/icon.png'); ?>" alt="" width="120"></a>
+    <!-- Chemistry icons created by Freepik - Flaticon in https://www.flaticon.com/free-icons/chemistry -->
     <p>&nbsp;</p>
     <p>&nbsp;</p>
     <h1>Sinta-se em casa...</h1>

@@ -9,8 +9,8 @@ define('DEV', true);
 
 # Domain
 define('BASE', '/'); # '/' padrão, '/sub', para subdiretório
-define('DOMAIN', 'nano.mfwks.com');
-define('SITE', 'https://' . DOMAIN . BASE);
+define('DOMAIN', 'localhost:2727');
+define('SITE', 'http://' . DOMAIN . BASE);
 
 # Dev Mode: Show Errors
 ini_set('display_errors', DEV);
@@ -20,3 +20,9 @@ error_reporting(E_ALL);
 # Erros Log Output
 ini_set('log_errors', DEV);
 ini_set('error_log', APP  . 'errors.log');
+
+# Basics
+$app    = 'NanoFramework';
+$system = 'NanoFramework';
+$mark   = 'Microframeworks';
+$site   = 'https://microframeworks.com/';
