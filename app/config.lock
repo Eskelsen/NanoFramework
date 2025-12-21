@@ -19,4 +19,4 @@ error_reporting(E_ALL);
 
 # Erros Log Output
 ini_set('log_errors', DEV);
-ini_set('error_log', TMP  . 'errors.log');
+ini_set('error_log', APP  . 'errors.log');

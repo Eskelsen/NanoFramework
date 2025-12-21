@@ -5,6 +5,8 @@
 
 app/config.php
 
+*.log
 *.sqlite
+*.txt
 
 *test.php

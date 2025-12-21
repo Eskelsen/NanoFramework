@@ -4,13 +4,13 @@ namespace App\Core;
 
 class Acl
 {
-    public static function can(string $list): bool
+    public static function can($list): bool
     {
         $role = $_SESSION['role'] ?? 'guest';
-        return in_array($role, is_array($list) ? $list : [$list], true);
+        return in_array($role, is_array($list) ? $list : array_map('trim',explode(',',$list)), true);
     }
 
-	public static function label()
+	public static function role()
     {	
         $role = $_SESSION['role'] ?? 'guest';
         
