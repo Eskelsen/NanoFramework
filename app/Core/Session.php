@@ -6,11 +6,6 @@ class Session
 {
     public static function start(): void
     {
-        if (session_status() === PHP_SESSION_ACTIVE) {
-            self::tenacity();
-            return;
-        }
-
         session_name('nano');
 
         session_set_cookie_params([
@@ -29,9 +24,18 @@ class Session
         ini_set('session.gc_divisor', '10');
         ini_set('session.gc_maxlifetime', '604800');
 
+        session_save_path(APP . 'tmp/');
+
         session_start();
 
-        $_SESSION['_last_regeneration'] = time();
+        if (empty($_SESSION['_last_regeneration'])) {
+            $_SESSION['_last_regeneration'] = time();
+            return;
+        }
+        
+        if ((time() - $_SESSION['_last_regeneration']) > 1800) {
+            self::regenerate();
+        }
     }
 
     public static function regenerate(): void
@@ -40,11 +44,9 @@ class Session
         $_SESSION['_last_regeneration'] = time();
     }
 
-    public static function tenacity(): void
+    public static function load($data)
     {
-        if (time() - $_SESSION['_last_regeneration'] > 1800) {
-            self::regenerate();
-        }
+        $_SESSION = is_array($data) ? array_filter($data) : [];
     }
 
     public static function get($key)
@@ -56,4 +58,9 @@ class Session
     {
         $_SESSION[$key] = $value;
     }
+
+	public function alert($msg,$color = null,$disappear = false)
+    {
+		$_SESSION['alerts'][] = [$msg,$color,$disappear];
+	}
 }
