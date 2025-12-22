@@ -9,12 +9,12 @@
   
   <meta name="author" content="Daniel Eskelsen">
   <meta name="theme-color" content="#4482A1">
-  <meta property="og:url" content="<?= url(); ?>">
-  <link rel="icon" href="<?= url('ups/icon.png'); ?>">
+  <meta property="og:url" content="<?= completeRequest(); ?>">
+  <link rel="icon" href="ups/icon.png">
 
   <title>Home » <?= $app; ?></title>
 
-  <link rel="canonical" href="<?= url(); ?>">
+  <link rel="canonical" href="<?= completeRequest(); ?>">
   
   <style>
     @charset "UTF-8";
@@ -31,14 +31,14 @@
   </style>
 </head>
 <body>
-    <a href=""><img class="mb-4" src="<?= url('ups/icon.png'); ?>" alt="" width="120"></a>
+    <a href=""><img class="mb-4" src="ups/icon.png" alt="" width="120"></a>
     <!-- Chemistry icons created by Freepik - Flaticon in https://www.flaticon.com/free-icons/chemistry -->
     <p>&nbsp;</p>
     <p>&nbsp;</p>
     <h1><?= $app; ?></h1>
     <p>&nbsp;</p>
     <p>
-      <a href="<?= url('exemplos'); ?>" style="color: #0a0">Exemplos</a>
+      <a href="exemplos" style="color: #0a0">Exemplos</a>
     ⇌ <a href="https://github.com/Eskelsen/NanoFramework" style="color: #46B" target="_blank">GitHub</a>
     </p>
     <p>&nbsp;</p>

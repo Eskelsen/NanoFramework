@@ -21,12 +21,12 @@ function mrk(){
 }
 
 function redirect($in = '/'){
-	header('Location: ' . url($in));
+	header('Location: /' . ltrim($in, '/'));
 	exit;
 }
 
 function refresh($in = '/', $time = 3){
-	header("Refresh: $time; " . url($in));
+	header("Refresh: $time; /" . ltrim($in, '/'));
 }
 
 function img($in){

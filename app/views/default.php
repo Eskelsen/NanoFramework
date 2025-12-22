@@ -8,11 +8,12 @@
   <meta name="description" content="Login">
   <meta name="author" content="Daniel Eskelsen">
 	<meta name="theme-color" content="#4482A1">
-	<meta property="og:url" content="<?= url('login'); ?>">
-  <link rel="icon" href="<?= url('ups/icon.png'); ?>">
+	<meta property="og:url" content="<?= completeRequest(); ?>">
+  <link rel="icon" href="ups/icon.png">
 
   <title><?= $title; ?></title>
-  <link rel="icon" href="<?= url('ups/icon.png'); ?>">
+
+  <link rel="canonical" href="<?= completeRequest(); ?>">
   
   <style>
     @charset "UTF-8";
@@ -34,7 +35,7 @@
   </style>
 </head>
 <body>
-    <a href=""><img class="mb-4" src="<?= url('ups/icon.png'); ?>" alt="" width="120"></a>
+    <a href=""><img class="mb-4" src="ups/icon.png" alt="" width="120"></a>
     <!-- Chemistry icons created by Freepik - Flaticon in https://www.flaticon.com/free-icons/chemistry -->
     <p>&nbsp;</p>
     <p>&nbsp;</p>

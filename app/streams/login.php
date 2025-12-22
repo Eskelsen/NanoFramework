@@ -9,6 +9,95 @@ $email_to = ($email) ? "?email=$email" : '';
 $label = 'Acesso a área administrativa';
 $label = 'Caso não recorde suas credencias, recupere o acesso <a href="recuperar-acesso?email=' . $email . '">via e-mail</a>';
 
+
+// if (logged()) {
+// 	redirect('dashboard');
+// 	exit;
+// }
+
+// if (!empty($_GET['constructor'])) {
+// 	$_SESSION['constructor'] = true;
+// }
+
+// if (DEV AND empty($_SESSION['constructor'])) {
+// 	exit('This is a construction site');
+// }
+
+// if (!empty($_SESSION['failure'])) {
+// 	if ($_SESSION['failure']<=time()) {
+// 		unset($_SESSION['failure']);
+// 	}
+// }
+
+// $email    = $_POST['email'] ?? false;
+// $password = $_POST['password'] ?? false;
+
+// $attempts_email = attemptsStatus('login_email');
+// $attempts_psw   = attemptsStatus('login_psw');
+
+// include VIEWS . 'bsdash_functions.php';
+
+// $fc = fc_ctrl();
+
+// $label = 'Acesso a área administrativa';
+// $msg = '';
+
+// if ($fc AND $email AND $password) {
+// 	$data = selectRow('mf_users','*','WHERE email=?',[$email]);
+// 	if (!$data) {
+// 		$remaining = 4 - $attempts_email;
+// 		$msg = alertfy(['E-mail inexistente na base de dados. ' . $remaining . ' tentativa(s) restante(s)','danger']);
+// 		attempt('login_email');
+// 		attemptsStatus('login_email');
+// 		logfy("[access/login] E-mail inexistente na base de dados: $email");
+// 	}
+	
+// 	if (!empty($data['psw'])) {
+		
+// 		if (!field('mf_users','active','WHERE email=?',[$email])) {
+// 			logfy("[access/login] Conta desativada: $email");
+// 			$c['title'] 	= 'Conta desativada';
+// 			$c['off'] 		= '100';
+// 			$c['header'] 	= $c['title'];
+// 			$c['blink'] 	= 'p';
+// 			$c['message'] = 'Caso pense que seja um engano, entre em contato conosco.';
+// 			include VIEWS . 'empty.php';
+// 			exit;
+// 		}
+
+// 		if (sha1($password)==$data['psw']) {
+			
+// 			login($data);
+			
+// 			logfy("[access/login] #$data[id] $data[name]: login via tela de login");
+			
+// 			$c['title'] 	= 'Sinta-se em casa!';
+// 			$c['off'] 		= '0';
+// 			$c['header'] 	= $c['title'];
+// 			$c['blink'] 	= 'p class="blink_me"';
+// 			$c['message'] 	= 'Redirecionando...';
+// 			refresh('dashboard', 3);
+// 			include VIEWS . 'empty.php';
+// 			exit;
+// 		}
+// 		if (empty($msg)) {
+// 			$remaining = 4 - $attempts_psw;
+// 			$msg = alertfy(['Senha incorreta. ' . $remaining . ' tentativa(s) restante(s)','danger']);
+// 			attempt('login_psw');
+// 			attemptsStatus('login_psw');
+// 			$recovery = url('recuperar?email=' . $email);
+// 			$label = 'Caso não recorde suas credencias, recupere o acesso <a href="' . $recovery . '">via e-mail</a>.';
+// 		}
+// 	}
+// }
+
+// $c['title'] = 'Login » ' . $c['name'];
+
+// $sheets['form'] = __DIR__ .  '/sheetviews/login_form.php';
+
+// include VIEWS . 'login.php';
+// exit;
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -21,7 +110,7 @@ $label = 'Caso não recorde suas credencias, recupere o acesso <a href="recupera
     <meta name="author" content="Daniel Eskelsen">
 	<meta name="theme-color" content="#4482A1">
 	<meta property="og:url" content="<?= url('login'); ?>">
-    <link rel="icon" href="<?= url('ups/icon.png'); ?>">
+    <link rel="icon" href="ups/icon.png">
 
     <title>Login » <?= $app; ?></title>
 
@@ -81,7 +170,7 @@ $label = 'Caso não recorde suas credencias, recupere o acesso <a href="recupera
   <body class="text-center">
   
       <form class="form-signin" method="post">
-      <a href=""><img class="mb-4" src="<?= url('ups/icon.png'); ?>" alt="" width="120"></a>
+      <a href=""><img class="mb-4" src="ups/icon.png" alt="" width="120"></a>
       <!-- Chemistry icons created by Freepik - Flaticon in https://www.flaticon.com/free-icons/chemistry -->
       <h1 class="h3 mb-3 font-weight-normal">Login</h1>
 	  <p><?= $label; ?></p>
@@ -89,7 +178,7 @@ $label = 'Caso não recorde suas credencias, recupere o acesso <a href="recupera
 	  <input type="hidden" id="fc" name="fc" value="3e783c8b">
 
       <label for="inputEmail" class="sr-only">Email</label>
-      <input type="email" id="inputEmail" name="email" class="form-control mb-2" placeholder="E-mail" value="" required autofocus>
+      <input type="email" id="inputEmail" name="email" class="form-control mb-2" placeholder="E-mail" value="" required>
 	  <label for="inputPassword" class="sr-only">Senha</label>
 	  <i class="bi bi-eye-slash" id="togglePassword"></i>
       <input type="password" id="inputPassword" name="password" class="form-control mb-2" placeholder="Senha" required>

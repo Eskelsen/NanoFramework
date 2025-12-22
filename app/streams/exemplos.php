@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="ups/icon.png">
     <title>Exemplos</title>
     <style>
         html, body {
@@ -46,15 +47,15 @@
 <body>
 
     <div class="container">
-        <a href=""><img class="mb-4" src="<?= url('ups/icon.png'); ?>" alt="" width="120"></a>
+        <a href=""><img class="mb-4" src="ups/icon.png" alt="" width="120"></a>
         <!-- Chemistry icons created by Freepik - Flaticon in https://www.flaticon.com/free-icons/chemistry -->
         <h1>Exemplos</h1>
-        <p><a href="<?= url('um/exemplo'); ?>">Exemplo</a>
-        | <a href="<?= url('um/outro/exemplo'); ?>">Outro exemplo</a>
-        | <a href="<?= url('registrar'); ?>">Acesso</a>
-        | <a href="<?= url('redirect'); ?>">Redirecionamento</a></p>
+        <p><a href="um/exemplo">Exemplo</a>
+        | <a href="um/outro/exemplo">Outro exemplo</a>
+        | <a href="registrar">Acesso</a>
+        | <a href="redirect">Redirecionamento</a></p>
         <p>&nbsp;</p>
-        <p><a href="<?= url('/'); ?>" style="color: #0a0;font-weight: bold">Voltar</a></p>
+        <p><a href="/" style="color: #0a0;font-weight: bold">Voltar</a></p>
     </div>
 
 </body>

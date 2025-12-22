@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../ups/icon.png">
     <title>Um exemplo</title>
     <style>
         html, body {
@@ -47,12 +48,12 @@
 <body>
 
     <div class="container">
-        <a href=""><img class="mb-4" src="<?= url('ups/icon.png'); ?>" alt="" width="120"></a>
+        <a href=""><img class="mb-4" src="../ups/icon.png" alt="" width="120"></a>
         <!-- Chemistry icons created by Freepik - Flaticon in https://www.flaticon.com/free-icons/chemistry -->
         <h1>Um exemplo</h1>
         <p>Esta rota web é gerada pela própria estrutura de pastas.</p>
         <p>&nbsp;</p>
-        <p><a href="<?= url('exemplos'); ?>">Voltar</a></p>
+        <p><a href="../exemplos">Voltar</a></p>
     </div>
 
 </body>
