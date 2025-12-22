@@ -47,7 +47,7 @@
 <body>
 
     <div class="container">
-        <a href=""><img class="mb-4" src="<?=  url('ups/icon.png'); ?>" alt="" width="120"></a>
+        <a href=""><img class="mb-4" src="<?= url('ups/icon.png'); ?>" alt="" width="120"></a>
         <!-- Chemistry icons created by Freepik - Flaticon in https://www.flaticon.com/free-icons/chemistry -->
         <h1>Um outro exemplo</h1>
         <p>Esta rota web é gerada pela própria estrutura de pastas.</p>

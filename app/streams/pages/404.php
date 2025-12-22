@@ -4,7 +4,7 @@
 
 header('HTTP/1.1 404 Not Found');
 
-$title	= 'Não encontrado | ' . $app;
+$title	= 'Não encontrado';
 $footer = '<a href="' . $site . '">' . $mark . ' &copy;</a>';
 $gray 	= '100%';
 

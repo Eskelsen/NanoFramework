@@ -9,7 +9,7 @@ class Session
         session_name('nano');
 
         session_set_cookie_params([
-            'lifetime' => 0,
+            'lifetime' => 604800,
             'path'     => '/',
             'domain'   => '',
             'secure'   => isset($_SERVER['HTTPS']),
@@ -30,6 +30,7 @@ class Session
 
         if (empty($_SESSION['_last_regeneration'])) {
             $_SESSION['_last_regeneration'] = time();
+            $_SESSION['csrf'] = bin2hex(random_bytes(32));
             return;
         }
         
@@ -42,6 +43,7 @@ class Session
     {
         session_regenerate_id(true);
         $_SESSION['_last_regeneration'] = time();
+        $_SESSION['csrf'] = bin2hex(random_bytes(32));
     }
 
     public static function load($data)

@@ -46,7 +46,7 @@
 <body>
 
     <div class="container">
-        <a href=""><img class="mb-4" src="<?=  url('ups/icon.png'); ?>" alt="" width="120"></a>
+        <a href=""><img class="mb-4" src="<?= url('ups/icon.png'); ?>" alt="" width="120"></a>
         <!-- Chemistry icons created by Freepik - Flaticon in https://www.flaticon.com/free-icons/chemistry -->
         <h1>Exemplos</h1>
         <p><a href="<?= url('um/exemplo'); ?>">Exemplo</a>

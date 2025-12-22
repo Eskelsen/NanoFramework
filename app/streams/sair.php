@@ -11,7 +11,9 @@ if (empty($_SESSION['role'])) {
 
 // logfy("[access/quit] #$data[id] $data[name]: checkout");
 
+session_unset();
 session_destroy();
+setcookie(session_name(), '', time() - 3600, '/');
 
 $title	= 'Acesso encerrado!';
 $footer = '<a href="' . $site . '">' . $mark . ' &copy;</a>';

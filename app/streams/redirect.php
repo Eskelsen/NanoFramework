@@ -9,12 +9,20 @@ refresh('/exemplos', 4);
 <html lang="pt-br">
 
 <head>
+
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Microframeworks.com">
-  <meta name="author" content="Microframeworks">
-  <title>Sinta-se em casa...</title>
-  <link rel="icon" href="https://microframeworks.com/tools/ups/icon.png">
+
+  <meta name="description" content="Home">
+  
+  <meta name="author" content="Daniel Eskelsen">
+  <meta name="theme-color" content="#4482A1">
+  <meta property="og:url" content="<?= url(); ?>">
+  <link rel="icon" href="<?= url('ups/icon.png'); ?>">
+
+  <title>Sinta-se em casa... » <?= $app; ?></title>
+
+  <link rel="canonical" href="<?= url(); ?>">
   
   <style>
     @charset "UTF-8";
@@ -31,7 +39,7 @@ refresh('/exemplos', 4);
   </style>
 </head>
 <body>
-    <a href=""><img class="mb-4" src="<?=  url('ups/icon.png'); ?>" alt="" width="120"></a>
+    <a href=""><img class="mb-4" src="<?= url('ups/icon.png'); ?>" alt="" width="120"></a>
     <!-- Chemistry icons created by Freepik - Flaticon in https://www.flaticon.com/free-icons/chemistry -->
     <p>&nbsp;</p>
     <p>&nbsp;</p>

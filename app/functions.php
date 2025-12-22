@@ -22,6 +22,7 @@ function mrk(){
 
 function redirect($in = '/'){
 	header('Location: ' . url($in));
+	exit;
 }
 
 function refresh($in = '/', $time = 3){
@@ -64,4 +65,26 @@ function ip(): string {
         }
     }
     return '0.0.0.0';
+}
+
+function get($in){
+	$out = $_GET[$in] ?? null;
+	return filter($out);
+}
+
+function post($in){
+	$out = $_POST[$in] ?? null;
+	return filter($out);
+}
+
+function session($key, $value = false){
+	if ($value) {
+		$_SESSION[$key] = filter($value);
+	}
+	return $_SESSION[$key] ?? null;
+}
+
+function filter($in){
+	$in = is_string($in) ? trim($in) : $in;
+	return $in ? htmlspecialchars($in, ENT_QUOTES, 'UTF-8') : $in;
 }

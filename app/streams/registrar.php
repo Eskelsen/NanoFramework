@@ -1,9 +1,25 @@
+<?php
+
+# Verificações e acesso
+
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Criar Conta</title>
+
+    <meta name="description" content="Registrar">
+    
+    <meta name="author" content="Daniel Eskelsen">
+    <meta name="theme-color" content="#4482A1">
+    <meta property="og:url" content="<?= url('registrar'); ?>">
+    <link rel="icon" href="<?= url('ups/icon.png'); ?>">
+
+    <title>Criar Conta » <?= $app; ?></title>
+
+    <link rel="canonical" href="<?= url('registrar'); ?>">
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <style>
         body, html {
@@ -14,6 +30,15 @@
             justify-content: center;
             align-items: center;
             background: #f9f9f9;
+        }
+        a {
+            color: #6c757d;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #54595eff;
+            text-decoration: none;
         }
         .card {
             background: #fff;
@@ -64,13 +89,18 @@
         .btn-submit:hover {
             background: #0056b3;
         }
+
+        .hr-muted {
+            border: none;
+            border-top: 1px solid #e0e0e0;
+        }
     </style>
 </head>
 <body>
 
 <div class="card">
-    <form method="post" action="registrando">
-        <a href=""><img class="mb-4" src="<?=  url('ups/icon.png'); ?>" alt="" width="120"></a>
+    <form method="post" action="registrar">
+        <a href=""><img class="mb-4" src="<?= url('ups/icon.png'); ?>" alt="" width="120"></a>
         <!-- Chemistry icons created by Freepik - Flaticon in https://www.flaticon.com/free-icons/chemistry -->
 
         <h2>Crie sua conta</h2>
@@ -94,7 +124,14 @@
         </div>
 
         <button type="submit" class="btn-submit">Cadastrar</button>
+        <p class="mt-3 mb-5 text-muted">Já possui conta? <a href="login">Acessar</a></p>
     </form>
+    <hr class="mt-5 hr-muted">
+    <p class="mt-4 pt-2 text-muted small">
+        <a href="<?= $site; ?>" target="_blank">
+            &copy; <?= $mark . ' ' . date('Y'); ?>
+        </a>
+    </p>
 </div>
 
 <script>

@@ -11,4 +11,7 @@ include WEB . 'app/config.php';
 include APP . 'functions.php';
 
 App\Core\Session::start();
-App\Core\Web::match();
+
+$stream = App\Core\Web::match();
+
+include $stream;
