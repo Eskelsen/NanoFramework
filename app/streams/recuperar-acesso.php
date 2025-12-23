@@ -49,9 +49,13 @@ if ($fc AND $email AND empty($_SESSION['requested'])) {
 		$link  = url("acesso/$hash");
 		$sent  = true;
 		if ($sent) {
-			$title = 'Link de acesso :: ' . $app;
-			$html  = 'Olá, ' . explode(" ", $data['name'])[0] . '<br><br>Seu link de acesso é <a href="' . $link . '">' . $link . '</a>';
-			$sent = mail($email,$title,$html,"From: NanoFramework <nano@mfwks.com>\r\n");
+            $title = 'Link de acesso :: ' . $app;
+            $html  = 'Olá, ' . explode(" ", $data['name'])[0] . '<br><br>Seu link de acesso é <a href="' . $link . '">' . $link . '</a>';
+            $headers  = "From: NanoFramework <nano@mfwks.com>\r\n";
+            $headers .= "Reply-To: nano@mfwks.com\r\n";
+            $headers .= "MIME-Version: 1.0\r\n";
+            $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+            $sent = mail($email,$title,$html,$headers,'-fnano@mfwks.com');
 		}
 		$status = ($sent) ? 'requested' : 'failure';
 		$_SESSION[$status] = time() + 60;
