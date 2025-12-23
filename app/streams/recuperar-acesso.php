@@ -1,88 +1,79 @@
 
 <?php
 
+use App\Core\Session;
+
+if (Session::on()) {
+    redirect('test');
+}
+
+vd($_SESSION);
+vd($_POST);
+
 // $msg = '<div class="alert alert-danger" role="alert">E-mail inexistente na base de dados. 3 tentativa(s) restante(s)</div>';;
 // $msg = '<div class="alert alert-danger" role="alert">E-mail inexistente na base de dados. 3 tentativa(s) restante(s)</div>';;
 
-$email = get('email');
+$email = post('email');
 
-// if (logged()) {
-// 	redirect('dashboard');
-// 	exit;
-// }
+if (!empty($_SESSION['requested'])) {
+  if ($_SESSION['requested']<=time()) {
+    unset($_SESSION['requested']);
+  }
+}
 
-// if (!empty($_SESSION['requested'])) {
-// 	if ($_SESSION['requested']<=time()) {
-// 		unset($_SESSION['requested']);
-// 	}
-// }
+if (!empty($_SESSION['failure'])) {
+	if ($_SESSION['failure']<=time()) {
+		unset($_SESSION['failure']);
+	}
+}
 
-// if (!empty($_SESSION['failure'])) {
-// 	if ($_SESSION['failure']<=time()) {
-// 		unset($_SESSION['failure']);
-// 	}
-// }
+$attempts = 1; # tmp
 
-// $email = $_POST['email'] ?? false;
+$fc = true; # tmp
 
-// $attempts = attemptsStatus('recovery');
+$title   = 'Acesso a área administrativa';
+$message = '';
+$footer  = '<a href="' . $site . '">' . $mark . ' &copy;</a>';
 
-// $fc = fc_ctrl();
+if ($fc AND $email AND empty($_SESSION['requested'])) {
+	// $data = selectRow('mf_users', '*', 'WHERE email=?', [$email]);
+    $data = ['name' => 'Daniel Eskelsen']; # tmp
+	if (!$data) {
+		$remaining = 4 - $attempts;
+		$message = '<div class="alert alert-danger" role="alert">E-mail inexistente na base de dados. ' . $remaining . ' tentativa(s) restante(s)</div>';
+		// attempt('recovery');
+		// attemptsStatus('recovery');
+	} else {
+		$hash  = sha1(uniqid());
+		$chash = sha1($hash);
+		$link  = url("acesso/$hash");
+		$sent  = true;
+		if ($sent) {
+			$title = 'Link de acesso :: ' . $app;
+			$html  = 'Olá, ' . explode(" ", $data['name'])[0] . '<br><br>Seu link de acesso é <a href="' . $link . '">' . $link . '</a>';
+			$sent = mail($email,$title,$html,"From: NanoFramework <nano@mfwks.com>\r\n");
+		}
+		$status = ($sent) ? 'requested' : 'failure';
+		$_SESSION[$status] = time() + 60;
+	}
+}
 
-// $label = 'Acesso a área administrativa';
-// $msg = '';
+if (!empty($_SESSION['failure'])) {
+	$title	='Falha na recuperação.';
+    $message = 'Falha ao enviar e-mail de recuperação. Entre em contato com o administrador do sistema.';
+    $gray = '100%';
+	include APP . 'views/default.php';
+	exit;
+}
 
-// if ($fc AND $email AND empty($_SESSION['requested'])) {
-// 	$data = selectRow('mf_users', '*', 'WHERE email=?', [$email]);
-// 	if (!$data) {
-// 		$remaining = 4 - $attempts;
-// 		$msg = '<div class="alert alert-danger" role="alert">E-mail inexistente na base de dados. ' . $remaining . ' tentativa(s) restante(s)</div>';
-// 		attempt('recovery');
-// 		attemptsStatus('recovery');
-// 	} else {
-// 		$hash  = sha1(uniqid());
-// 		$chash = sha1($hash);
-// 		$link  = url("acesso/$hash");
-// 		$sent  = update('mf_users',['hash' => $chash,'hash_time' => 4294967295],'email=?', [$email]);
-// 		if ($sent) {
-// 			include INFRA . 'mail.php';
-// 			$title = 'Link de acesso';
-// 			$html  = 'Olá, ' . explode(" ", $data['name'])[0] . '<br><br>Seu link de acesso é <a href="' . $link . '">' . $link . '</a>';
-// 			$sent = sendMail($email,$title,$html,$data);
-// 		}
-// 		$status = ($sent) ? 'requested' : 'failure';
-// 		$_SESSION[$status] = time() + 180;
-// 	}
-// }
+if (!empty($_SESSION['requested'])) {
+	$title	='Solicitação recebida.';
+	$message = 'Em breve você receberá um link de recuperação em seu e-mail.';
+    include APP . 'views/default.php';
+	exit;
+}
 
-// if (!empty($_SESSION['failure'])) {
-// 	$c['title'] 	= 'Falha na recuperação.';
-// 	$c['off'] 		= '100';
-// 	$c['header'] 	= $c['title'];
-// 	$c['blink'] 	= 'p';
-// 	$c['message'] 	= 'Falha ao enviar e-mail de recuperação. Entre em contato com o administrador do sistema.';
-// 	include VIEWS . 'empty.php';
-// 	exit;
-// }
-
-// if (!empty($_SESSION['requested'])) {
-// 	$c['title'] 	= 'Solicitação recebida.';
-// 	$c['off'] 		= '0';
-// 	$c['header'] 	= $c['title'];
-// 	$c['blink'] 	= 'p';
-// 	$c['message'] 	= 'Em breve você receberá um link de recuperação em seu e-mail.';
-// 	include VIEWS . 'empty.php';
-// 	exit;
-// }
-
-// $email = $_GET['email'] ?? $email;
-
-// $c['title'] = 'Recuperar acesso » ' . $c['name'];
-
-// $sheets['form'] = __DIR__ .  '/sheetviews/recovery_form.php';
-
-// include VIEWS . 'login.php';
-// exit;
+$email = $_GET['email'] ?? $email;
 
 ?>
 <!doctype html>
@@ -96,7 +87,7 @@ $email = get('email');
     <meta name="author" content="Daniel Eskelsen">
     <meta name="theme-color" content="#4482A1">
     <meta property="og:url" content="<?= url('recuperar-acesso'); ?>">
-    <link rel="icon" href="ups/icon.png">
+    <link rel="icon" href="<?= rel('ups/icon.png'); ?>">
 
     <title>Recuperar acesso » <?= $app; ?></title>
 
@@ -156,7 +147,7 @@ $email = get('email');
   <body class="text-center">
   
       <form class="form-signin" method="post">
-      <img class="mb-4" src="ups/icon.png" alt="" width="72" height="72">
+      <img class="mb-4" src="<?= rel('ups/icon.png'); ?>" alt="" width="72" height="72">
       <h1 class="h3 mb-3 font-weight-normal">Recuperar acesso</h1>
 	  <p>Acesso a área administrativa</p>
 	  

@@ -176,7 +176,7 @@
     <meta name="author" content="Daniel Eskelsen">
     <meta name="theme-color" content="#4482A1">
     <meta property="og:url" content="<?= url('registrar'); ?>">
-    <link rel="icon" href="ups/icon.png">
+    <link rel="icon" href="<?= rel('ups/icon.png'); ?>">
 
     <title>Criar Conta » <?= $app; ?></title>
 
@@ -262,7 +262,7 @@
 
 <div class="card">
     <form method="post" action="registrar">
-        <a href=""><img class="mb-4" src="ups/icon.png" alt="" width="120"></a>
+        <a href=""><img class="mb-4" src="<?= rel('ups/icon.png'); ?>" alt="" width="120"></a>
         <!-- Chemistry icons created by Freepik - Flaticon in https://www.flaticon.com/free-icons/chemistry -->
 
         <h2>Crie sua conta</h2>

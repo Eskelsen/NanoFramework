@@ -9,7 +9,7 @@
   <meta name="author" content="Daniel Eskelsen">
 	<meta name="theme-color" content="#4482A1">
 	<meta property="og:url" content="<?= completeRequest(); ?>">
-  <link rel="icon" href="ups/icon.png">
+  <link rel="icon" href="<?= rel('ups/icon.png'); ?>">
 
   <title><?= $title; ?></title>
 
@@ -35,12 +35,13 @@
   </style>
 </head>
 <body>
-    <a href=""><img class="mb-4" src="ups/icon.png" alt="" width="120"></a>
+    <a href=""><img class="mb-4" src="<?= rel('ups/icon.png'); ?>" alt="" width="120"></a>
     <!-- Chemistry icons created by Freepik - Flaticon in https://www.flaticon.com/free-icons/chemistry -->
     <p>&nbsp;</p>
     <p>&nbsp;</p>
     <h1><?= $title; ?></h1>
     <p class="<?= empty($blink) ? '&nbsp;' : $blink; ?>"><?= empty($message) ? '&nbsp;' : $message; ?></p>
+    <p>&nbsp;</p>
     <p>&nbsp;</p>
     <p><?= $footer; ?></p>
 </body>

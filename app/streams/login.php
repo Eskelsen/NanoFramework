@@ -110,7 +110,7 @@ $label = 'Caso não recorde suas credencias, recupere o acesso <a href="recupera
     <meta name="author" content="Daniel Eskelsen">
 	<meta name="theme-color" content="#4482A1">
 	<meta property="og:url" content="<?= url('login'); ?>">
-    <link rel="icon" href="ups/icon.png">
+    <link rel="icon" href="<?= rel('ups/icon.png'); ?>">
 
     <title>Login » <?= $app; ?></title>
 
@@ -170,7 +170,7 @@ $label = 'Caso não recorde suas credencias, recupere o acesso <a href="recupera
   <body class="text-center">
   
       <form class="form-signin" method="post">
-      <a href=""><img class="mb-4" src="ups/icon.png" alt="" width="120"></a>
+      <a href=""><img class="mb-4" src="<?= rel('ups/icon.png'); ?>" alt="" width="120"></a>
       <!-- Chemistry icons created by Freepik - Flaticon in https://www.flaticon.com/free-icons/chemistry -->
       <h1 class="h3 mb-3 font-weight-normal">Login</h1>
 	  <p><?= $label; ?></p>

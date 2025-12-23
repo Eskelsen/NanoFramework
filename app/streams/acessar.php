@@ -1,6 +1,6 @@
 <?php
 
-# Access by Hash
+use App\Core\Session;
 
 $hash = $_GET['hash'] ?? null;
 
@@ -14,44 +14,48 @@ if (!$hash) {
     exit;
 }
 
-// $chash = sha1($hash);
+$chash = sha1($hash);
 
+$data = ['hash' => '356a192b7913b04c54574d18c28d46e6395428ab', 'hash_time' => time() + 1]; // get hash + hash_time # tmp
 // $data = false;
 
-// if (empty($data['hash_time'])) {
-// 	$title 	 = 'Hash não reconhecido';
-// 	$message = 'Entre em contato com o administrador do sistema.';
-// 	include APP . 'views/default.php';
-// 	exit;
-// }
+if (empty($data['hash_time'])) {
+	$title 	 = 'Hash não reconhecido';
+	$message = 'Hash de acesso não encontrado no sistema.';
+	include APP . 'views/default.php';
+	exit;
+}
 
-// if (time()>=$data['hash_time']) {
-// 	$title 	 = 'Hash expirado';
-// 	$message = 'Obtenha um novo hash de acesso.';
-//     include APP . 'views/default.php';
-//     exit;
-// }
+if (time()>=$data['hash_time']) {
+	$title 	 = 'Hash expirado';
+	$message = 'Obtenha um novo hash de acesso.';
+    include APP . 'views/default.php';
+    exit;
+}
 
-// if ($chash!==$data['hash']) {
-// 	$title   = 'Hash não reconhecido.';
-// 	$message = 'Para acessar é necessário um hash válido.';
-//     include APP . 'views/default.php';
-//     exit;
-// }
+if ($chash!==$data['hash']) {
+	$title   = 'Hash não reconhecido.';
+	$message = 'Para acessar é necessário um hash válido.';
+    include APP . 'views/default.php';
+    exit;
+}
 
-// login($data);
+$user = ['id' => 1, 'name' => 'Daniel Eskelsen', 'email' => 'eskelsen@yahoo.com', 'role' => 'master', 'public' => 1, 'active' => 1]; // data from user # tmp
 
-// logfy("[access/access] #$data[id] $data[name]: login via hash");
+$user['acc'] = $user['id'];
+
+Session::regenerate();
+Session::load($user);
+
+error_log("[access/access] #$user[id] $user[name]: login via hash");
 
 $title   = 'Sinta-se em casa!';
 $gray    = false;
 $message = 'Redirecionando...';
 $blink 	 = 'blink_me';
 
-// selectRow('mf_users', '*', 'WHERE hash=?', [$chash]);
+// update('mf_users',['hash_time' => time()],'id=?',[$data['id']]); // marcar hash como usado # tmp
 
-// update('mf_users',['hash_time' => time()],'id=?',[$data['id']]);
-
-refresh('dashboard', 3);
+refresh('/', 3);
 include APP . 'views/default.php';
 exit;

@@ -51,6 +51,11 @@ class Session
         $_SESSION = is_array($data) ? array_filter($data) : [];
     }
 
+    public static function data()
+    {
+        return $_SESSION;
+    }
+
     public static function get($key)
     {
         return $_SESSION[$key] ?? null;
@@ -65,4 +70,16 @@ class Session
     {
 		$_SESSION['alerts'][] = [$msg,$color,$disappear];
 	}
+
+    public static function on()
+    {
+        return $_SESSION['id'] ?? null;
+    }
+
+    public static function exit()
+    {
+        session_unset();
+        session_destroy();
+        setcookie(session_name(), '', time() - 3600, '/');
+    }
 }

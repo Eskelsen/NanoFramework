@@ -18,7 +18,7 @@ refresh('/exemplos', 4);
   <meta name="author" content="Daniel Eskelsen">
   <meta name="theme-color" content="#4482A1">
 
-  <link rel="icon" href="ups/icon.png">
+  <link rel="icon" href="<?= rel('ups/icon.png'); ?>">
 
   <title>Sinta-se em casa... » <?= $app; ?></title>
   
@@ -37,7 +37,7 @@ refresh('/exemplos', 4);
   </style>
 </head>
 <body>
-    <a href=""><img class="mb-4" src="ups/icon.png" alt="" width="120"></a>
+    <a href=""><img class="mb-4" src="<?= rel('ups/icon.png'); ?>" alt="" width="120"></a>
     <!-- Chemistry icons created by Freepik - Flaticon in https://www.flaticon.com/free-icons/chemistry -->
     <p>&nbsp;</p>
     <p>&nbsp;</p>

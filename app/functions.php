@@ -44,6 +44,12 @@ function url_query($path, $add_query){
 	return url($path) . '?' . http_build_query($data);
 }
 
+function rel($path){
+    $uri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
+    $levels = $uri === '' ? 0 : substr_count($uri, '/') + 1;
+    return str_repeat('../', $levels) . ltrim($path, '/');
+}
+
 function completeRequest(){
     return urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
 }

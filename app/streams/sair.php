@@ -1,21 +1,20 @@
 <?php
 
-# Quit
+use App\Core\Session;
 
 if (empty($_SESSION['role'])) {
 	redirect('/');
-	return;
 }
 
-// $data = user();
+$data = Session::data();
 
-// logfy("[access/quit] #$data[id] $data[name]: checkout");
+error_log("[access/quit] #$data[id] $data[name]: checkout");
 
-session_unset();
-session_destroy();
-setcookie(session_name(), '', time() - 3600, '/');
+$data = Session::exit();
+
 
 $title	= 'Acesso encerrado!';
+$message = 'Você será redirecionado.';
 $footer = '<a href="' . $site . '">' . $mark . ' &copy;</a>';
 
 refresh('/', 4);

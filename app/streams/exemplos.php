@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="ups/icon.png">
+    <link rel="icon" href="<?= rel('ups/icon.png'); ?>">
     <title>Exemplos</title>
     <style>
         html, body {
@@ -47,7 +47,7 @@
 <body>
 
     <div class="container">
-        <a href=""><img class="mb-4" src="ups/icon.png" alt="" width="120"></a>
+        <a href=""><img class="mb-4" src="<?= rel('ups/icon.png'); ?>" alt="" width="120"></a>
         <!-- Chemistry icons created by Freepik - Flaticon in https://www.flaticon.com/free-icons/chemistry -->
         <h1>Exemplos</h1>
         <p><a href="um/exemplo">Exemplo</a>
