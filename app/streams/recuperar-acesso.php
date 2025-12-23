@@ -7,8 +7,8 @@ if (Session::on()) {
     redirect('test');
 }
 
-vd($_SESSION);
-vd($_POST);
+// vd($_SESSION);
+// vd($_POST);
 
 // $msg = '<div class="alert alert-danger" role="alert">E-mail inexistente na base de dados. 3 tentativa(s) restante(s)</div>';;
 // $msg = '<div class="alert alert-danger" role="alert">E-mail inexistente na base de dados. 3 tentativa(s) restante(s)</div>';;
@@ -49,13 +49,11 @@ if ($fc AND $email AND empty($_SESSION['requested'])) {
 		$link  = url("acesso/$hash");
 		$sent  = true;
 		if ($sent) {
+            include_once APP . 'mail.php';
             $title = 'Link de acesso :: ' . $app;
-            $html  = 'Olá, ' . explode(" ", $data['name'])[0] . '<br><br>Seu link de acesso é <a href="' . $link . '">' . $link . '</a>';
-            $headers  = "From: NanoFramework <nano@mfwks.com>\r\n";
-            $headers .= "Reply-To: nano@mfwks.com\r\n";
-            $headers .= "MIME-Version: 1.0\r\n";
-            $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
-            $sent = mail($email,$title,$html,$headers,'-fnano@mfwks.com');
+            $name = explode(" ", $data['name'])[0];
+            $html  = 'Olá, ' . $name . '<br><br>Seu link de acesso é <a href="' . $link . '">' . $link . '</a>';
+            $sent = sendMail($email,$name,$title,$html);
 		}
 		$status = ($sent) ? 'requested' : 'failure';
 		$_SESSION[$status] = time() + 60;
