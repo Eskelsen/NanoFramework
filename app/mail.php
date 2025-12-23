@@ -4,8 +4,8 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 function sendMail($email,$name,$title,$message){
-    $mail = new PHPMailer(true);
     try {
+        $mail = new PHPMailer(true);
         $mail->isSMTP();
         $mail->Host       = HOSTMAIL;
         $mail->SMTPAuth   = true;
@@ -14,16 +14,20 @@ function sendMail($email,$name,$title,$message){
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
         $mail->Port       = 465;
 
-        $mail->setFrom('nano@mfwks.com', 'NanoFramework');
+        $mail->setFrom(HOSTMAIL, NAMEMAIL);
         $mail->addAddress($email, $name);
 
         $mail->CharSet = 'UTF-8';
+        $mail->isHTML(true);
         $mail->Subject = $title;
         $mail->Body    = $message;
-        error_log("E-mail enviado para $name ($email) com sucesso!");
-        return $mail->send();
+        
+        $u = $mail->send();
+        $status = $u ? 'Sucesso' : 'Falha';
+        error_log("$status ao enviar e-mail para $name ($email)!");
+        return $u;
     } catch (Exception $e) {
-        error_log("Erro ao enviar e-mail para $name ($email): {$mail->ErrorInfo}");
+        error_log("Erro ao enviar e-mail para $name ($email): {$e->getMessage()}");
         return false;
     }
 }

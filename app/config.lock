@@ -22,9 +22,10 @@ ini_set('log_errors', DEV);
 ini_set('error_log', APP  . 'errors.log');
 
 # Emails
-define('USERMAIL', 'xxx');
-define('PASSMAIL', 'xxx');
-define('HOSTMAIL', 'xxx');
+define('NAMEMAIL', 'NanoFramework');
+define('USERMAIL', 'nano@mfwks.com');
+define('PASSMAIL', 'xxxxxxxxxxxxxx);
+define('HOSTMAIL', 'smtp.hostinger.com');
 
 # Basics
 $app    = 'NanoFramework';
