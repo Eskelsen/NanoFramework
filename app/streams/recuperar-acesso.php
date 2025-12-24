@@ -49,7 +49,7 @@ if ($fc AND $email AND empty($_SESSION['requested'])) {
 		$link  = url("acesso/$hash");
 		$sent  = true;
 		if ($sent) {
-            include_once APP . 'mail.php';
+            include_once APP . 'functions/mail.php';
             $title = 'Link de acesso :: ' . $app;
             $name = explode(" ", $data['name'])[0];
             $html  = 'Olá, ' . $name . '<br><br>Seu link de acesso é <a href="' . $link . '">' . $link . '</a>';
