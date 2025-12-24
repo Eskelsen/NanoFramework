@@ -14,7 +14,9 @@ Crie o arquivo de configurações a partir do modelo
 ```shell
 cp app/config.lock app/config.php
 ```
-Configure as constantes conforme necessário
+---
+> ⚠️ Configure as constantes conforme necessário.
+---
 ## Usando nginx
 Acrescente este código ao seu nginx.conf
 ```shell
