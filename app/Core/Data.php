@@ -76,8 +76,23 @@ class Data
 
     public static function execute(string $sql, array $params = [])
     {
-        // print_r($sql);
+        error_log('[Data] ' . $sql);
         $stmt = self::connect()->prepare($sql);
         return $stmt->execute($params) ? $stmt : false;
+    }
+
+    public static function query(string $sql, array $params = [])
+    {
+        $stmt = self::execute($sql, $params);
+
+        if (!$stmt) {
+            return false;
+        }
+
+        if ($stmt->columnCount() > 0) {
+            return $stmt->fetchAll();
+        }
+
+        return true;
     }
 }

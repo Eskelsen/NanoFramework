@@ -1,0 +1,7 @@
+<?php
+
+# [migration]
+
+$up[] = '';
+
+$down[] = '';
