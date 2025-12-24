@@ -14,7 +14,7 @@ function sendMail($email,$name,$title,$message){
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
         $mail->Port       = 465;
 
-        $mail->setFrom(HOSTMAIL, NAMEMAIL);
+        $mail->setFrom(USERMAIL, NAMEMAIL);
         $mail->addAddress($email, $name);
 
         $mail->CharSet = 'UTF-8';
