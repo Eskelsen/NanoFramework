@@ -44,8 +44,6 @@ function migrate(string $file, array &$migs, bool $up = true) {
         if (!($u = Data::query($sql))) {
             return false;
         }
-        $k = ($u) ? 'yes' : 'no';
-        echo "Execute: $sql - ($k)\n";
     }
     if ($up) {
         $migs[$file] = time();
@@ -78,7 +76,7 @@ function up($n = PHP_INT_MAX): void {
 
 function down($n = 1): void {
     $migs = read_migs();
-
+    $n = $n ? $n : 1;
     $loaded = array_slice(array_reverse(array_keys($migs)),0,$n);
 
     alert($loaded, 'revertidas');

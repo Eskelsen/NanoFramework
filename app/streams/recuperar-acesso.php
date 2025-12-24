@@ -64,14 +64,14 @@ if (!empty($_SESSION['failure'])) {
 	$title	='Falha na recuperação.';
     $message = 'Falha ao enviar e-mail de recuperação. Entre em contato com o administrador do sistema.';
     $gray = '100%';
-	include APP . 'views/default.php';
+	include APP . 'views/blank.php';
 	exit;
 }
 
 if (!empty($_SESSION['requested'])) {
 	$title	='Solicitação recebida.';
 	$message = 'Em breve você receberá um link de recuperação em seu e-mail.';
-    include APP . 'views/default.php';
+    include APP . 'views/blank.php';
 	exit;
 }
 

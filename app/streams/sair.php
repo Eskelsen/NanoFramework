@@ -19,5 +19,5 @@ $footer = '<a href="' . $site . '">' . $mark . ' &copy;</a>';
 
 refresh('/', 4);
 
-include APP . 'views/default.php';
+include APP . 'views/blank.php';
 exit;

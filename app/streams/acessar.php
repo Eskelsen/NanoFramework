@@ -10,7 +10,7 @@ $gray 	= '100%';
 if (!$hash) {
 	$title 	 = 'Hash ausente';
 	$message = 'Para o login é necessário um hash de acesso.';
-    include APP . 'views/default.php';
+    include APP . 'views/blank.php';
     exit;
 }
 
@@ -22,21 +22,21 @@ $data = ['hash' => '356a192b7913b04c54574d18c28d46e6395428ab', 'hash_time' => ti
 if (empty($data['hash_time'])) {
 	$title 	 = 'Hash não reconhecido';
 	$message = 'Hash de acesso não encontrado no sistema.';
-	include APP . 'views/default.php';
+	include APP . 'views/blank.php';
 	exit;
 }
 
 if (time()>=$data['hash_time']) {
 	$title 	 = 'Hash expirado';
 	$message = 'Obtenha um novo hash de acesso.';
-    include APP . 'views/default.php';
+    include APP . 'views/blank.php';
     exit;
 }
 
 if ($chash!==$data['hash']) {
 	$title   = 'Hash não reconhecido.';
 	$message = 'Para acessar é necessário um hash válido.';
-    include APP . 'views/default.php';
+    include APP . 'views/blank.php';
     exit;
 }
 
@@ -57,5 +57,5 @@ $blink 	 = 'blink_me';
 // update('mf_users',['hash_time' => time()],'id=?',[$data['id']]); // marcar hash como usado # tmp
 
 refresh('/', 3);
-include APP . 'views/default.php';
+include APP . 'views/blank.php';
 exit;

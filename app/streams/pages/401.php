@@ -9,5 +9,5 @@ $message = 'Recurso de acesso restrito';
 $footer = '<a href="' . $site . '">' . $mark . ' &copy;</a>';
 $gray 	= '100%';
 
-include APP . 'views/default.php';
+include APP . 'views/blank.php';
 exit;

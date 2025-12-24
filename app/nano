@@ -24,33 +24,34 @@ if (is_null($cmd)) {
 
 if ($cmd=='cmds') {
 	cli('Comandos:');
-	cli("create: \033[32m" . 'Cria uma nova migration' . "\033[0m");
-	cli("up: \033[32m" . 'Avança as migrations, aceita limite $n' . "\033[0m");
-	cli("down: \033[32m" . 'Reverte as migrations, aceita limite $n' . "\033[0m");
+    # Migrate
+	cli("mig create: \033[32m" . 'Cria uma nova migration' . "\033[0m");
+	cli("mig up [n]: \033[32m" . 'Avança as migrations, aceita limite $n' . "\033[0m");
+	cli("mig down [n]: \033[32m" . 'Reverte as migrations, aceita limite $n' . "\033[0m");
 	return;
 }
 
-if ($cmd=='create') {
-	if (empty($arg)) {
-		cli('Este comando requer um nome para identificação.');
-		return;
-	}
-	if ($mig_name = create($arg)) {
-		cli("\033[32mMigration $mig_name criada com sucesso.\033[0m");
-		return;
-	}
-	cli("\033[33mAlgum erro ao criar migration.\033[0m");
-	return;
-}
+if ($cmd=='mig') {
+    if ($arg=='create') {
+        if (empty($opt)) {
+            cli('Este comando requer um nome para identificação.');
+            return;
+        }
+        if ($mig_name = create($opt)) {
+            cli("\033[32mMigration $mig_name criada com sucesso.\033[0m");
+            return;
+        }
+        cli("\033[33mAlgum erro ao criar migration.\033[0m");
+        return;
+    }
 
-if ($cmd=='up') {
-	up($arg);
-	return;
-}
+    if ($arg=='down') {
+        down($opt);
+        return;
+    }
 
-if ($cmd=='down') {
-	down($arg);
-	return;
+    up($opt);
+    return;
 }
 
 cli('Comando "'. $cmd . '" não encontrado.');
