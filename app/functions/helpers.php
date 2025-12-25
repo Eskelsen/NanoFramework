@@ -178,3 +178,41 @@ function formatName($name){
 function capName($name){
     return mb_strtoupper(mb_substr($name, 0, 1, 'utf-8'), 'utf-8') . mb_substr($name, 1, null, 'utf-8');
 }
+
+# Refresh Control
+function rc(){
+    return  '<input type="hidden" name="rc" value="' . IDEMPOTENCY . '">' . PHP_EOL;
+}
+
+function rc_get(){
+    return App\Core\Access::request_get();
+}
+
+function rc_set(){
+    App\Core\Access::request_set() ;
+}
+
+# Time Control
+function tc_set($time){
+    $_SESSION['tc'] = time() + $time;
+}
+
+function tc_get(){
+    if (empty($_SESSION['tc'])) {
+        return false;
+    }
+    if ($_SESSION['tc']<=time()) {
+        unset($_SESSION['tc']);
+        return false;
+    }
+    return true;
+}
+
+# Cross-Site Request Forgery (CSRF)
+function csrf(){
+    return  '<input type="hidden" name="csrf" value="' . $_SESSION['csrf'] . '">' . PHP_EOL;
+}
+
+function csrf_check(){
+    return hash_equals($_SESSION['csrf'], $_POST['csrf'] ?? '');
+}

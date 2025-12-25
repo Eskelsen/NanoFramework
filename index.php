@@ -4,6 +4,6 @@
 
 define('WEB', __DIR__ . '/');
 
-$idempotency = bin2hex(random_bytes(32));
+define('IDEMPOTENCY', bin2hex(random_bytes(32)));
 
 include WEB . 'app/start.php';

@@ -10,32 +10,28 @@ if (Session::on()) {
 // vd($_SESSION);
 // vd($_POST);
 
-// $msg = '<div class="alert alert-danger" role="alert">E-mail inexistente na base de dados. 3 tentativa(s) restante(s)</div>';;
-// $msg = '<div class="alert alert-danger" role="alert">E-mail inexistente na base de dados. 3 tentativa(s) restante(s)</div>';;
+$msg = '<div class="alert alert-info" role="alert">E-mail inexistente.</div>';
 
 $email = post('email');
 
-if (!empty($_SESSION['requested'])) {
-  if ($_SESSION['requested']<=time()) {
-    unset($_SESSION['requested']);
-  }
+if ($tc = tc_get()) {
+    $msg = '<div class="alert alert-warning" role="alert">Aguarde um momento para a próxima solicitação.</div>';
 }
 
-if (!empty($_SESSION['failure'])) {
-	if ($_SESSION['failure']<=time()) {
-		unset($_SESSION['failure']);
-	}
-}
-
-$attempts = 1; # tmp
-
-$fc = true; # tmp
+$attempts = 1; # tmp função que conta requests rate_limit(n)
 
 $title   = 'Acesso a área administrativa';
 $message = '';
 $footer  = '<a href="' . $site . '">' . $mark . ' &copy;</a>';
 
-if ($fc AND $email AND empty($_SESSION['requested'])) {
+include APP . 'streams/pages/refresh_control.php';
+
+// vd(['rc_available' => $rc]);
+// vd($_SESSION);
+// vd($_POST);
+// error_log('rc: ' . $rc);
+
+if ($email AND !($tc)) {
 	// $data = selectRow('mf_users', '*', 'WHERE email=?', [$email]);
     $data = ['name' => 'Daniel Eskelsen']; # tmp
 	if (!$data) {
@@ -53,25 +49,25 @@ if ($fc AND $email AND empty($_SESSION['requested'])) {
             $title = 'Link de acesso :: ' . $app;
             $name = explode(" ", $data['name'])[0];
             $html  = 'Olá, ' . $name . '<br><br>Seu link de acesso é <a href="' . $link . '">' . $link . '</a>';
-            $sent = sendMail($email,$name,$title,$html);
+            // $sent = sendMail($email,$name,$title,$html);
+            rc_set();
 		}
-		$status = ($sent) ? 'requested' : 'failure';
-		$_SESSION[$status] = time() + 60;
+		tc_set(30);
+        if ($sent) {
+            $title	='Solicitação recebida.';
+            $message = 'Em breve você receberá um link de recuperação em seu e-mail.';
+            // rc_boook(vars) aqui
+            include APP . 'views/blank.php';
+            exit;
+        }
 	}
 }
 
-if (!empty($_SESSION['failure'])) {
+if (isset($sent) && $sent===false) {
 	$title	='Falha na recuperação.';
-    $message = 'Falha ao enviar e-mail de recuperação. Entre em contato com o administrador do sistema.';
+    $message = 'Falha ao enviar e-mail de recuperação.';
     $gray = '100%';
 	include APP . 'views/blank.php';
-	exit;
-}
-
-if (!empty($_SESSION['requested'])) {
-	$title	='Solicitação recebida.';
-	$message = 'Em breve você receberá um link de recuperação em seu e-mail.';
-    include APP . 'views/blank.php';
 	exit;
 }
 
@@ -153,7 +149,8 @@ $email = $_GET['email'] ?? $email;
       <h1 class="h3 mb-3 font-weight-normal">Recuperar acesso</h1>
 	  <p>Acesso a área administrativa</p>
 	  
-	  <input type="hidden" id="fc" name="fc" value="4d0a99a1">
+	  <?= rc(); ?>
+	  <?= csrf(); ?>
 
       <label for="inputEmail" class="sr-only">Email</label>
       <input type="email" id="inputEmail" name="email" class="form-control mb-2" placeholder="E-mail" value="<?= $email; ?>" required>
