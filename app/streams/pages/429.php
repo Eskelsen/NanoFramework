@@ -1,5 +1,9 @@
 <?php
 
+# 429 Too Many Requests
+
+header('HTTP/1.1 429 Too Many Requests');
+
 $title	='Aguarde...';
 $message = 'Muitas requisições.';
 $gray = '100%';

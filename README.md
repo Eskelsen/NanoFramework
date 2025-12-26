@@ -17,6 +17,10 @@ cp app/config.lock app/config.php
 ---
 > ⚠️ Configure as constantes conforme necessário.
 ---
+Rode as migrations
+```shell
+php app/nano mig up
+```
 ## Usando nginx
 Acrescente este código ao seu nginx.conf
 ```shell
