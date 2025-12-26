@@ -4,7 +4,7 @@ use App\Core\Session;
 
 $hash = $_GET['hash'] ?? null;
 
-$footer = '<a href="' . $site . '">' . $mark . ' &copy;</a>';
+$footer = '<a href="' . $site . '" target="_blank">' . $mark . ' &copy;</a>';
 $gray 	= '100%';
 
 if (!$hash) {

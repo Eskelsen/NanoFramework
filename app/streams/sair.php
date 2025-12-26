@@ -15,7 +15,7 @@ $data = Session::exit();
 
 $title	= 'Acesso encerrado!';
 $message = 'Você será redirecionado.';
-$footer = '<a href="' . $site . '">' . $mark . ' &copy;</a>';
+$footer = '<a href="' . $site . '" target="_blank">' . $mark . ' &copy;</a>';
 
 refresh('/', 4);
 

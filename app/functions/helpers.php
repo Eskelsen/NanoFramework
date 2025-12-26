@@ -180,7 +180,11 @@ function capName($name){
 }
 
 # Refresh Control
-function rc(){
+function rc_url(){
+    return '?rc=' . IDEMPOTENCY;
+}
+
+function rc_form(){
     return  '<input type="hidden" name="rc" value="' . IDEMPOTENCY . '">' . PHP_EOL;
 }
 

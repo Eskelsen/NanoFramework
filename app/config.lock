@@ -32,3 +32,4 @@ $app    = 'NanoFramework';
 $system = 'NanoFramework';
 $mark   = 'Microframeworks';
 $site   = 'https://microframeworks.com/';
+$footer = '<a href="' . $site . '" target="_blank">' . $mark . ' &copy;</a>';

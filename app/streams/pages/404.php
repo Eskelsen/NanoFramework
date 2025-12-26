@@ -6,7 +6,7 @@ header('HTTP/1.1 404 Not Found');
 
 $title	= 'Não encontrado';
 $message = 'Recurso não encontrado no sistema';
-$footer = '<a href="' . $site . '">' . $mark . ' &copy;</a>';
+$footer = '<a href="' . $site . '" target="_blank">' . $mark . ' &copy;</a>';
 $gray 	= '100%';
 
 include APP . 'views/blank.php';

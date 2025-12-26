@@ -7,31 +7,27 @@ if (Session::on()) {
     redirect('test');
 }
 
+$title   = 'Acesso a área administrativa';
+$message = '';
+
 // vd($_SESSION);
 // vd($_POST);
 
-$msg = '<div class="alert alert-info" role="alert">E-mail inexistente.</div>';
-
 $email = post('email');
 
-if ($tc = tc_get()) {
-    $msg = '<div class="alert alert-warning" role="alert">Aguarde um momento para a próxima solicitação.</div>';
+if ($tc = tc_get()) { # el
+    $message = '<div class="alert alert-warning" role="alert">Aguarde um momento para a próxima solicitação.</div>';
 }
 
 $attempts = 1; # tmp função que conta requests rate_limit(n)
 
-$title   = 'Acesso a área administrativa';
-$message = '';
-$footer  = '<a href="' . $site . '">' . $mark . ' &copy;</a>';
+if ($rc = rc_get()) { # el
+    extract($rc); // tmp
+	include APP . 'views/blank.php';
+	exit;
+}
 
-include APP . 'streams/pages/refresh_control.php';
-
-// vd(['rc_available' => $rc]);
-// vd($_SESSION);
-// vd($_POST);
-// error_log('rc: ' . $rc);
-
-if ($email AND !($tc)) {
+if ($email AND !$tc) { # el
 	// $data = selectRow('mf_users', '*', 'WHERE email=?', [$email]);
     $data = ['name' => 'Daniel Eskelsen']; # tmp
 	if (!$data) {
@@ -50,13 +46,13 @@ if ($email AND !($tc)) {
             $name = explode(" ", $data['name'])[0];
             $html  = 'Olá, ' . $name . '<br><br>Seu link de acesso é <a href="' . $link . '">' . $link . '</a>';
             // $sent = sendMail($email,$name,$title,$html);
-            rc_set();
+            $sent = false;
 		}
-		tc_set(30);
+		tc_set(30); # el
         if ($sent) {
             $title	='Solicitação recebida.';
             $message = 'Em breve você receberá um link de recuperação em seu e-mail.';
-            // rc_boook(vars) aqui
+            rc_set(); # el
             include APP . 'views/blank.php';
             exit;
         }
@@ -149,13 +145,13 @@ $email = $_GET['email'] ?? $email;
       <h1 class="h3 mb-3 font-weight-normal">Recuperar acesso</h1>
 	  <p>Acesso a área administrativa</p>
 	  
-	  <?= rc(); ?>
+	  <?= rc_form(); ?>
 	  <?= csrf(); ?>
 
       <label for="inputEmail" class="sr-only">Email</label>
       <input type="email" id="inputEmail" name="email" class="form-control mb-2" placeholder="E-mail" value="<?= $email; ?>" required>
 	  
-      <?= empty($msg) ? '' : $msg; ?>
+      <?= empty($message) ? '' : $message; ?>
 	  	  
       <button class="btn btn-lg btn-primary btn-block" type="submit">Recuperar</button>
       <p class="mt-3 mb-2 text-muted"><a href="registrar">Criar conta</a> | <a href="login">Acessar conta</a></p>

@@ -53,7 +53,7 @@ class Access
             return false;
         }
         $sql = "SELECT * FROM nano_requests WHERE request_id = ? LIMIT 1";
-        return Data::query($sql, [$_REQUEST['rc']]);
+        return Data::one($sql, [$_REQUEST['rc']]);
     }
 
     public static function request_set()
