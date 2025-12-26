@@ -2,6 +2,10 @@
 
 use App\Core\Session;
 
+if (Session::on()) {
+    redirect('test');
+}
+
 $hash = $_GET['hash'] ?? null;
 
 $footer = '<a href="' . $site . '" target="_blank">' . $mark . ' &copy;</a>';

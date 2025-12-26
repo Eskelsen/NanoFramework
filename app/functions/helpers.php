@@ -167,7 +167,7 @@ function formatName($name){
     $prepositions = ['de', 'da', 'do', 'dos', 'das', 'e', 'del', 'la', 'las', 'los', 'di', 'du', 'der', 'den', 'des', 'von', 'van', 'of', 'af'];
     $words = explode(' ', $name);
     $capitalized = array_map(function($word) use ($prepositions) {
-        return in_array($word, $prepositions) ? $word : self::capName($word);
+        return in_array($word, $prepositions) ? $word : capName($word);
     }, $words);
     $name = implode(' ', $capitalized);
     return preg_replace_callback('/(?:^|[-\'])(\p{L})/u', function ($matches) {
@@ -177,6 +177,10 @@ function formatName($name){
 
 function capName($name){
     return mb_strtoupper(mb_substr($name, 0, 1, 'utf-8'), 'utf-8') . mb_substr($name, 1, null, 'utf-8');
+}
+
+function verifySize($in,$min_size){
+    return is_string($in) ? mb_strlen($in) >= $min_size : false;
 }
 
 # Refresh Control

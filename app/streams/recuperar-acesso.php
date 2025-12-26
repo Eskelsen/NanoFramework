@@ -19,13 +19,14 @@ if ($tc = tc_get()) { # el
     $message = '<div class="alert alert-warning" role="alert">Aguarde um momento para a próxima solicitação.</div>';
 }
 
-$attempts = 1; # tmp função que conta requests rate_limit(n)
-
 if ($rc = rc_get()) { # el
+    exit('Solicitação repetida.').
     extract($rc); // tmp
 	include APP . 'views/blank.php';
 	exit;
 }
+
+$attempts = 1; # tmp função que conta requests rate_limit(n)
 
 if ($email AND !$tc) { # el
 	// $data = selectRow('mf_users', '*', 'WHERE email=?', [$email]);

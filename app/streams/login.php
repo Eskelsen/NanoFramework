@@ -10,10 +10,9 @@ $label = 'Acesso a área administrativa';
 $label = 'Caso não recorde suas credencias, recupere o acesso <a href="recuperar-acesso?email=' . $email . '">via e-mail</a>';
 
 
-// if (logged()) {
-// 	redirect('dashboard');
-// 	exit;
-// }
+if (Session::on()) {
+    redirect('test');
+}
 
 // if (!empty($_GET['constructor'])) {
 // 	$_SESSION['constructor'] = true;
