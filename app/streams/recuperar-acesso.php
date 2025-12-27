@@ -43,9 +43,7 @@ if ($email AND !$tc) { # el
             $title = 'Link de acesso :: ' . $app;
             $name = explode(" ", $data['name'])[0];
             $html  = 'Olá, ' . $name . '<br><br>Seu link de acesso é <a href="' . $link . '">' . $link . '</a>';
-            // $sent = sendMail($email,$name,$title,$html);
-            $sent = false;
-            $sent = true;
+            $sent = sendMail($email,$name,$title,$html);
 		}
 		tc_set(15); # el
         if ($sent) {

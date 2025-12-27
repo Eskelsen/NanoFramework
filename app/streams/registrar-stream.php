@@ -7,14 +7,6 @@ if (Session::on()) {
     redirect('test');
 }
 
-if (!empty($_GET['constructor'])) {
-	$_SESSION['constructor'] = true;
-}
-
-if (DEV AND empty($_SESSION['constructor'])) {
-	exit('This is a construction site');
-}
-
 $name       = post('name');
 $email      = post('email');
 $psw        = post('psw');
@@ -50,12 +42,6 @@ if (!($psw_ok = ($psw===$confpsw))) {
 tc_set(30); # el
 rc_set(); # el
 
-$test = $_SESSION['constructor'] ?? false;
-
-if ($test) {
-    error_log('[access/onboarding] Onboarding de teste iniciado');
-}
-
 $name = formatName($name);
 
 $email = filter_var($email, FILTER_SANITIZE_EMAIL);
@@ -66,9 +52,7 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     return;
 }
 
-$already = ($test) ? false : Data::one('SELECT * FROM nano_users WHERE email=?',[$email]);
-
-if ($already) {
+if (Data::one('SELECT * FROM nano_users WHERE email=?',[$email])) {
     error_log("[access/onboarding] Falha na criação de conta via onboarding: $name <$email> [e-mail já cadastrado]");
     $message = '<div class="alert alert-warning" role="alert">E-mail já cadastrado. Faça <a href="login?email=' . $email . '">login</a>.</div>';
     return;
