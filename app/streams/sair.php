@@ -2,7 +2,7 @@
 
 use App\Core\Session;
 
-if (empty($_SESSION['role'])) {
+if (empty($_SESSION['id'])) {
 	redirect('/');
 }
 

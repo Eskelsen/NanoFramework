@@ -1,6 +1,7 @@
 <?php
 
 use App\Core\Session;
+use App\Core\Data;
 
 if (Session::on()) {
     redirect('test');
@@ -14,21 +15,21 @@ if (DEV AND empty($_SESSION['constructor'])) {
 	exit('This is a construction site');
 }
 
-$name = post('name');
-$email = post('email');
-$psw = post('psw');
-$confpsw = post('confpsw');
-
-if ($tc = tc_get()) { # el
-    $message = '<div class="alert alert-warning" role="alert">Aguarde um momento para a próxima solicitação.</div>';
-    return;
-}
+$name       = post('name');
+$email      = post('email');
+$psw        = post('psw');
+$confpsw    = post('confpsw');
 
 if ($rc = rc_get()) { # el
     exit('Solicitação repetida.').
     extract($rc); // tmp
 	include APP . 'streams/blank.php';
 	exit;
+}
+
+if ($tc = tc_get()) { # el
+    $message = '<div class="alert alert-warning" role="alert">Aguarde um momento para a próxima solicitação.</div>';
+    return;
 }
 
 if (!($name && $email && $psw && $confpsw)) {
@@ -65,9 +66,7 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     return;
 }
 
-# Important Code
-// $already = ($test) ? false : selectRow('mf_users','*','WHERE email=?',[$email]);
-$already = false; // tmp
+$already = ($test) ? false : Data::one('SELECT * FROM nano_users WHERE email=?',[$email]);
 
 if ($already) {
     error_log("[access/onboarding] Falha na criação de conta via onboarding: $name <$email> [e-mail já cadastrado]");
@@ -75,34 +74,25 @@ if ($already) {
     return;
 }
 
-// $values = [ // change
-//     'name' 		=> $name,
-//     'psw' 		=> sha1($psw),
-//     'access'	=> 'user',
-//     'phone' 	=> $phone_treated,
-//     'email' 	=> $email,
-//     'hash' 		=> sha1(uniqid()),
-//     'hash_time'	=> 4294967295,
-//     'created'   => date('Y-m-d H:i:s'),
-//     'public'    => 1,
-//     'active'    => 1
-// ];
+$values = [
+    'name' 		 => $name,
+    'email' 	 => $email,
+    'password'   => sha1($psw),
+    'created_at' => date('Y-m-d H:i:s')
+];
 
-// if (!($id = insert('mf_users',$values))) {
-$id = false;
-if ($id) {
+$id = Data::insert('nano_users',$values);
+
+if (!$id) {
     error_log("[access/onboarding] Falha na criação de conta via onboarding: $name <$email> [erro desconhecido]");
     $message = '<div class="alert alert-warning" role="alert">Erro ao criar conta. Entre em contato conosco.</div>';
     return;
 }
 
-// $data = selectRow('mf_users','*','WHERE id=?',[$id]);
-
 include_once APP . 'functions/mail.php';
 
-$id = 1;
 $firstname = explode(' ', $name)[0];
-$message = "Olá $name, receba as nossas boas-vindas à plataforma Unotify. Esperamos que tenha uma boa experiência.\n\nUm período de testes de 7 dias foi adicionado a sua conta."; # [tmp] 2025-04-06 Sunday: erase it
+$message = "Olá $firstname, receba as nossas boas-vindas à plataforma Unotify. Esperamos que tenha uma boa experiência.\n\nUm período de testes de 7 dias foi adicionado a sua conta."; # [tmp] 2025-04-06 Sunday: erase it
 sendMail($email,$firstname,'Boas-vindas :: ' . $app,$message);
 sendMail('eskelsen@yahoo.com','Eskelsen','Unotify :: Onboarding',"Período de testes adicionado a nova conta *#$id*, $name");
 

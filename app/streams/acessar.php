@@ -1,6 +1,7 @@
 <?php
 
 use App\Core\Session;
+use App\Core\Data;
 
 if (Session::on()) {
     redirect('test');
@@ -8,57 +9,63 @@ if (Session::on()) {
 
 $hash = $_GET['hash'] ?? null;
 
-$footer = '<a href="' . $site . '" target="_blank">' . $mark . ' &copy;</a>';
-$gray 	= '100%';
-
 if (!$hash) {
 	$title 	 = 'Hash ausente';
 	$message = 'Para o login é necessário um hash de acesso.';
+    $gray 	= '100%';
     include APP . 'views/blank.php';
     exit;
 }
 
-$chash = sha1($hash);
+if (empty($_SESSION['time_hash'])) {
+	$title   = 'Dispositivo não identificado.';
+	$message = 'Você deve entrar pelo mesmo dispositivo que fez a solicitação.';
+    $gray 	 = '75%';
+    include APP . 'views/blank.php';
+    exit;
+}
 
-$data = ['hash' => '356a192b7913b04c54574d18c28d46e6395428ab', 'hash_time' => time() + 1]; // get hash + hash_time # tmp
-// $data = false;
+if (time()>=$_SESSION['time_hash']) {
+	$title 	 = 'Hash expirado';
+	$message = 'Obtenha um novo <a href="../recuperar-acesso" style="font-family: inherit;">hash de acesso</a>.';
+    $gray 	 = '50%';
+    include APP . 'views/blank.php';
+    exit;
+}
 
-if (empty($data['hash_time'])) {
+$confirm = empty($_SESSION['counter_hash']) ? false : $_SESSION['counter_hash']==sha1($hash);
+
+if (!$confirm) {
 	$title 	 = 'Hash não reconhecido';
 	$message = 'Hash de acesso não encontrado no sistema.';
+    $gray 	 = '25%';
 	include APP . 'views/blank.php';
 	exit;
 }
 
-if (time()>=$data['hash_time']) {
-	$title 	 = 'Hash expirado';
-	$message = 'Obtenha um novo hash de acesso.';
-    include APP . 'views/blank.php';
-    exit;
+$email = $_SESSION['email'] ?? null;
+
+$data = Data::one('SELECT * FROM nano_users WHERE email=?',[$email]);
+
+if (!$data) {
+	$title 	 = 'Algo inesperado aconteceu';
+	$message = 'Usuário não encontrado no sistema.';
+    $gray 	 = '100%';
+	include APP . 'views/blank.php';
+	exit;
 }
 
-if ($chash!==$data['hash']) {
-	$title   = 'Hash não reconhecido.';
-	$message = 'Para acessar é necessário um hash válido.';
-    include APP . 'views/blank.php';
-    exit;
-}
-
-$user = ['id' => 1, 'name' => 'Daniel Eskelsen', 'email' => 'eskelsen@yahoo.com', 'role' => 'master', 'public' => 1, 'active' => 1]; // data from user # tmp
-
-$user['acc'] = $user['id'];
+$data['acc'] = $data['id'];
 
 Session::regenerate();
-Session::load($user);
+Session::load($data);
 
-error_log("[access/access] #$user[id] $user[name]: login via hash");
+error_log("[access/access] #$data[id] $data[name]: login via hash");
 
 $title   = 'Sinta-se em casa!';
 $gray    = false;
 $message = 'Redirecionando...';
 $blink 	 = 'blink_me';
-
-// update('mf_users',['hash_time' => time()],'id=?',[$data['id']]); // marcar hash como usado # tmp
 
 refresh('/', 3);
 include APP . 'views/blank.php';

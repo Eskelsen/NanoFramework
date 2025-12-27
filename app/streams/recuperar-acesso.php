@@ -2,6 +2,7 @@
 <?php
 
 use App\Core\Session;
+use App\Core\Data;
 
 if (Session::on()) {
     redirect('test');
@@ -9,9 +10,6 @@ if (Session::on()) {
 
 $title   = 'Acesso a área administrativa';
 $message = '';
-
-// vd($_SESSION);
-// vd($_POST);
 
 $email = post('email');
 
@@ -29,8 +27,7 @@ if ($rc = rc_get()) { # el
 $attempts = 1; # tmp função que conta requests rate_limit(n)
 
 if ($email AND !$tc) { # el
-	// $data = selectRow('mf_users', '*', 'WHERE email=?', [$email]);
-    $data = ['name' => 'Daniel Eskelsen']; # tmp
+	$data = Data::one('SELECT * FROM nano_users WHERE email=?',[$email]);
 	if (!$data) {
 		$remaining = 4 - $attempts;
 		$message = '<div class="alert alert-danger" role="alert">E-mail inexistente na base de dados. ' . $remaining . ' tentativa(s) restante(s)</div>';
@@ -38,8 +35,8 @@ if ($email AND !$tc) { # el
 		// attemptsStatus('recovery');
 	} else {
 		$hash  = sha1(uniqid());
-		$chash = sha1($hash);
-		$link  = url("acesso/$hash");
+		$chash = 
+		$link  = url("acessar/?hash=$hash");
 		$sent  = true;
 		if ($sent) {
             include_once APP . 'functions/mail.php';
@@ -48,11 +45,15 @@ if ($email AND !$tc) { # el
             $html  = 'Olá, ' . $name . '<br><br>Seu link de acesso é <a href="' . $link . '">' . $link . '</a>';
             // $sent = sendMail($email,$name,$title,$html);
             $sent = false;
+            $sent = true;
 		}
-		tc_set(30); # el
+		tc_set(15); # el
         if ($sent) {
-            $title	='Solicitação recebida.';
+            $title	='Solicitação recebida!';
             $message = 'Em breve você receberá um link de recuperação em seu e-mail.';
+            $_SESSION['counter_hash'] = sha1($hash);
+            $_SESSION['time_hash'] = time() + 600;
+            $_SESSION['email'] = $email;
             rc_set(); # el
             include APP . 'views/blank.php';
             exit;
@@ -61,7 +62,7 @@ if ($email AND !$tc) { # el
 }
 
 if (isset($sent) && $sent===false) {
-	$title	='Falha na recuperação.';
+	$title	='Falha na recuperação!';
     $message = 'Falha ao enviar e-mail de recuperação.';
     $gray = '100%';
 	include APP . 'views/blank.php';
