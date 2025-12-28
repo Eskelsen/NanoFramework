@@ -43,7 +43,31 @@ if (!$confirm) {
 	exit;
 }
 
+$name = $_SESSION['name'] ?? null;
 $email = $_SESSION['email'] ?? null;
+$password = $_SESSION['password'] ?? null;
+$created_at = $_SESSION['created_at'] ?? null;
+
+if (Data::one('SELECT * FROM nano_users WHERE email=?',[$email])) {
+    error_log("[onboarding] Falha na criação de conta via onboarding: $name <$email> [e-mail já cadastrado]");
+    $message = '<div class="alert alert-warning" role="alert">E-mail já cadastrado. Faça <a href="login?email=' . $email . '">login</a>.</div>';
+    return;
+}
+
+$values = [
+    'name' 		 => $name,
+    'email' 	 => $email,
+    'password'   => sha1($password),
+    'created_at' => $created_at
+];
+
+$id = Data::insert('nano_users',$values);
+
+if (!$id) {
+    error_log("[onboarding] Falha na criação de conta via onboarding: $name <$email> [erro desconhecido]");
+    $message = '<div class="alert alert-warning" role="alert">Erro ao criar conta. Entre em contato conosco.</div>';
+    return;
+}
 
 $data = Data::one('SELECT * FROM nano_users WHERE email=?',[$email]);
 
@@ -60,7 +84,7 @@ $data['acc'] = $data['id'];
 Session::regenerate();
 Session::load($data);
 
-error_log("[access/access] #$data[id] $data[name]: login via hash");
+error_log("[onboarding] #$data[id] $data[name]: login via hash");
 
 $title   = 'Sinta-se em casa!';
 $gray    = false;

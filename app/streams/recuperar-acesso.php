@@ -35,7 +35,6 @@ if ($email AND !$tc) { # el
 		// attemptsStatus('recovery');
 	} else {
 		$hash  = sha1(uniqid());
-		$chash = 
 		$link  = url("acessar/?hash=$hash");
 		$sent  = true;
 		if ($sent) {

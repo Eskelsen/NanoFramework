@@ -9,7 +9,7 @@ define('DEV', true);
 
 # Domain
 define('BASE', '/'); # '/' padrão, '/sub', para subdiretório
-define('DOMAIN', 'localhost:2727');
+define('DOMAIN', 'localhost');
 define('SITE', 'http://' . DOMAIN . BASE);
 
 # Dev Mode: Show Errors

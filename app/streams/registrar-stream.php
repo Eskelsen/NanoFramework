@@ -47,40 +47,36 @@ $name = formatName($name);
 $email = filter_var($email, FILTER_SANITIZE_EMAIL);
 
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    error_log("[access/onboarding] Falha na criação de conta via onboarding: $name <$email> [e-mail inválido]");
+    error_log("[registrar-stream] Falha na criação de conta via onboarding: $name <$email> [e-mail inválido]");
     $message = '<div class="alert alert-warning" role="alert">Endereço de e-mail inválido.</div>';
     return;
 }
 
 if (Data::one('SELECT * FROM nano_users WHERE email=?',[$email])) {
-    error_log("[access/onboarding] Falha na criação de conta via onboarding: $name <$email> [e-mail já cadastrado]");
+    error_log("[registrar-stream] Falha na criação de conta via onboarding: $name <$email> [e-mail já cadastrado]");
     $message = '<div class="alert alert-warning" role="alert">E-mail já cadastrado. Faça <a href="login?email=' . $email . '">login</a>.</div>';
     return;
 }
 
-$values = [
-    'name' 		 => $name,
-    'email' 	 => $email,
-    'password'   => sha1($psw),
-    'created_at' => date('Y-m-d H:i:s')
-];
+$hash  = sha1(uniqid());
+$link  = url("onboarding/?hash=$hash");
 
-$id = Data::insert('nano_users',$values);
-
-if (!$id) {
-    error_log("[access/onboarding] Falha na criação de conta via onboarding: $name <$email> [erro desconhecido]");
-    $message = '<div class="alert alert-warning" role="alert">Erro ao criar conta. Entre em contato conosco.</div>';
-    return;
-}
+# Onboarding baseado em sessão
+$_SESSION['name'] = $name;
+$_SESSION['email'] = $email;
+$_SESSION['password'] = $name;
+$_SESSION['created_at'] = date('Y-m-d H:i:s');
+$_SESSION['counter_hash'] = sha1($hash);
+$_SESSION['time_hash'] = time() + 600;
 
 include_once APP . 'functions/mail.php';
 
 $firstname = explode(' ', $name)[0];
-$message = "Olá $firstname, receba as nossas boas-vindas à plataforma Unotify. Esperamos que tenha uma boa experiência.\n\nUm período de testes de 7 dias foi adicionado a sua conta."; # [tmp] 2025-04-06 Sunday: erase it
-sendMail($email,$firstname,'Boas-vindas :: ' . $app,$message);
-sendMail('eskelsen@yahoo.com','Eskelsen','Unotify :: Onboarding',"Período de testes adicionado a nova conta *#$id*, $name");
+$message = 'Olá ' . $firstname . ', receba as nossas boas-vindas à plataforma $app. Esperamos que tenha uma boa experiência.<br><br>Seu link de acesso é: <a href="' . $link . '">' . $link . '</a>';
+// sendMail($email,$firstname,'Boas-vindas :: ' . $app,$message);
+// sendMail('eskelsen@yahoo.com','Eskelsen',$app . ' :: Onboarding',"Conta criada: *#$id*, $name");
 
 $title	= 'Solicitação efetuada!';
-$message = 'Confirme seu e-mail para continuar o processo.';
+$message = 'Confirme seu e-mail para continuar o processo.' . $message;
 include APP . 'views/blank.php';
 exit;
