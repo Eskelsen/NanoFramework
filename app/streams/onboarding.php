@@ -48,6 +48,16 @@ $email = $_SESSION['email'] ?? null;
 $password = $_SESSION['password'] ?? null;
 $created_at = $_SESSION['created_at'] ?? null;
 
+$ok = $name AND $email AND $password AND $created_at;
+
+if (!$ok) {
+	$title 	 = 'Não foi possível concluir o processo';
+	$message = 'Os dados associados a conta foram perdidos.';
+    $gray 	 = '100%';
+	include APP . 'views/blank.php';
+	exit;
+}
+
 if (Data::one('SELECT * FROM nano_users WHERE email=?',[$email])) {
     error_log("[onboarding] Falha na criação de conta via onboarding: $name <$email> [e-mail já cadastrado]");
     $message = '<div class="alert alert-warning" role="alert">E-mail já cadastrado. Faça <a href="login?email=' . $email . '">login</a>.</div>';
