@@ -16,3 +16,5 @@ RewriteRule .* - [e=HTTP_AUTHORIZATION:%1]
 php_value date.timezone 'America/Sao_Paulo'
 
 AddDefaultCharset UTF-8
+
+RewriteRule ^(app|vendor)(/|$) - [F,L]
