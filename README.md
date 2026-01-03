@@ -21,10 +21,3 @@ Rode as migrations
 ```shell
 php app/nano mig up
 ```
-## Usando nginx
-Acrescente este código ao seu nginx.conf
-```shell
-location = /nano {
-    deny all;
-}
-```

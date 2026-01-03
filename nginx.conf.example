@@ -1,0 +1,41 @@
+server {
+    listen 80;
+    listen [::]:80;
+    server_name seusite.com;
+
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+    server_name seusite.com;
+
+    root /var/www/nano/public;
+    index index.php;
+
+    charset utf-8;
+
+    ssl_certificate     /etc/letsencrypt/live/seusite.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/seusite.com/privkey.pem;
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    location ~ ^/(app|vendor)(/|$) {
+        deny all;
+    }
+
+    location ~ \.php$ {
+        include fastcgi_params;
+        fastcgi_pass unix:/run/php/php8.2-fpm.sock;
+
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_param HTTP_AUTHORIZATION $http_authorization;
+    }
+
+    add_header Access-Control-Allow-Origin "*" always;
+    add_header Access-Control-Allow-Methods "GET, POST, OPTIONS, DELETE, PUT" always;
+    add_header Access-Control-Allow-Headers "Authorization, Content-Type" always;
+}
