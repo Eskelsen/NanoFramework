@@ -7,11 +7,9 @@ if (PHP_SAPI!='cli') {
     exit('O utilitario migrate nao pode ser acessado diretamente' . PHP_EOL);
 }
 
-# Autoload, Config, & Helpers
-include WEB . 'vendor/autoload.php';
+# Config & Helpers
 include WEB . 'app/config.php';
 include APP . 'functions/helpers.php';
-include APP . 'functions/migrations.php';
 
 $cmd = isset($argv[1]) ? $argv[1] : null;
 $arg = isset($argv[2]) ? $argv[2] : null;
@@ -24,12 +22,20 @@ if (is_null($cmd)) {
 
 if ($cmd=='cmds') {
 	cli('Comandos:');
-    # Migrate
 	cli("mig create: \033[32m" . 'Cria uma nova migration' . "\033[0m");
 	cli("mig up [n]: \033[32m" . 'Avança as migrations, aceita limite $n' . "\033[0m");
 	cli("mig down [n]: \033[32m" . 'Reverte as migrations, aceita limite $n' . "\033[0m");
 	return;
 }
+
+if (!is_file(WEB . 'vendor/autoload.php')) {
+	cli('Instale o composer.');
+	return;
+}
+
+# Autoload & migrations
+include WEB . 'vendor/autoload.php';
+include APP . 'functions/migrations.php';
 
 if ($cmd=='mig') {
     if ($arg=='create') {
@@ -50,7 +56,11 @@ if ($cmd=='mig') {
         return;
     }
 
-    up($opt);
+    if ($arg=='up' or empty($arg)) {
+        up($opt);
+        return;
+    }
+    cli('Opção "'. $arg . '" desconhecida.');
     return;
 }
 
