@@ -10,4 +10,4 @@ app/config.php
 *.sqlite
 *.txt
 
-*test.php
+*test*

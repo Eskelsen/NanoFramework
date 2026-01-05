@@ -69,11 +69,12 @@ class Access
         Data::query($sql, $data);
     }
 
-    public static function rate(string $ip, int $limit = 10, int $seconds = 60): bool
+    public static function rate(int $limit = 10, int $seconds = 60): bool
     {
         $sql = "SELECT COUNT(*) AS c FROM nano_access WHERE ip = ? AND created_at > ?"; 
-        $since = time() - $seconds;
-        $res = Data::query($sql, [$ip, $since]);
+        $since = date('Y-m-d H:i:s',time() - $seconds);
+        $res = Data::query($sql, [ip(), $since]);
+        vd($res);
         return ($res[0]['c'] ?? 0) >= $limit;
     }
 }
