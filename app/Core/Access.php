@@ -38,13 +38,15 @@ class Access
 
     public static function init()
     {
-        self::access([
-            'ip'         => ip(),
-            'method'     => $_SERVER['REQUEST_METHOD'] ?? null,
-            'path'       => $_SERVER['REQUEST_URI'] ?? 'none',
-            'request_id' => IDEMPOTENCY,
-            'created_at' => date('Y-m-d H:i:s')
-        ]);
+        $data = [
+            IDEMPOTENCY,
+            $_SERVER['REQUEST_METHOD'] ?? null,
+            $_SERVER['REQUEST_URI'] ?? 'none',
+            ip(),
+            date('Y-m-d H:i:s')
+        ];
+        $sql = "INSERT INTO nano_access (request_id,method,path,ip,created_at) VALUES (?,?,?,?,?);";
+        Data::query($sql, $data);
     }
 
     public static function request_get()
@@ -62,19 +64,11 @@ class Access
         Data::query($sql, [$_REQUEST['rc']]);
     }
 
-    private static function access(array $data)
-    {
-        $sql = "INSERT INTO nano_access (created_at, user_id, ip, method, path, request_id)
-                VALUES (:created_at, :user_id, :ip, :method, :path, :request_id)";
-        Data::query($sql, $data);
-    }
-
-    public static function rate(int $limit = 10, int $seconds = 60): bool
+    public static function overLimit(int $limit = 10, int $seconds = 60): bool
     {
         $sql = "SELECT COUNT(*) AS c FROM nano_access WHERE ip = ? AND created_at > ?"; 
         $since = date('Y-m-d H:i:s',time() - $seconds);
         $res = Data::query($sql, [ip(), $since]);
-        vd($res);
         return ($res[0]['c'] ?? 0) >= $limit;
     }
 }
