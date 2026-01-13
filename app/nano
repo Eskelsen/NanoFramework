@@ -64,4 +64,54 @@ if ($cmd=='mig') {
     return;
 }
 
+# DB Update
+if ($cmd=='update-db') {
+    if (!is_file(__DIR__ . '/.env')) {
+        exit('Configure o arquivo app/.env a partir de app/.env.lock' . PHP_EOL);
+    }
+
+    $env = parse_ini_file(__DIR__ . '/.env');
+
+    if (empty($env['PROD_DB_HOST']) OR empty($env['PROD_DB_USER']) OR empty($env['PROD_DB_PASS']) || empty($env['PROD_DB_NAME'])) {
+        exit('Configure as crendencias de produção em app/.env' . PHP_EOL);
+    }
+
+    $dumpFile = APP . 'tmp/mock.sql';
+
+    $dumpCmd = sprintf(
+        'mariadb-dump --ssl=0 -h%s -u%s -p%s %s > %s',
+        escapeshellarg($env['PROD_DB_HOST']),
+        escapeshellarg($env['PROD_DB_USER']),
+        escapeshellarg($env['PROD_DB_PASS']),
+        escapeshellarg($env['PROD_DB_NAME']),
+        escapeshellarg($dumpFile)
+    );
+
+    cli('📦 Exportando produção...');
+    exec($dumpCmd, $out, $ret);
+
+    if ($ret !== 0) {
+        exit('Erro ao exportar banco de produção' . PHP_EOL);
+    }
+
+    $importCmd = sprintf(
+        'mysql -h%s -u%s -p%s %s < %s',
+        escapeshellarg(DB_HOST),
+        escapeshellarg(DB_USER),
+        escapeshellarg(DB_PASS),
+        escapeshellarg(DB_NAME),
+        escapeshellarg($dumpFile)
+    );
+
+    cli('📥 Importando para banco local...');
+    exec($importCmd, $out, $ret);
+
+    if ($ret !== 0) {
+        exit('Erro ao importar banco local');
+    }
+
+    cli('✅ Mock local criado com sucesso!');
+    return;
+}
+
 cli('Comando "'. $cmd . '" não encontrado.');
