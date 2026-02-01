@@ -59,7 +59,7 @@ function rel($path){
     return str_repeat('../', $levels) . ltrim($path, '/');
 }
 
-function completeRequest(){
+function complete_request(){
     return urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
 }
 
@@ -133,7 +133,7 @@ function slugify(string $text, string $sep = '-', ?int $limit = null): string{
     return strtolower($text);
 }
 
-function utf8Filter($in){
+function utf8_filter($in){
     $regex = '/[^\x{0009}\x{000a}\x{000d}\x{0020}-\x{D7FF}\x{E000}-\x{FFFD}]+/u';
     return preg_replace($regex,' ', $in);
 }
@@ -145,14 +145,14 @@ function distance($in, $list){
     return $n ?? [];
 }
 
-function relevanTerms($terms) {
+function relevant_terms($terms) {
     $terms = array_filter(array_map(function($a) { 
         return (strlen($a)>3) ? $a : null;
     },$terms));
     return $terms;
 }
 
-function stringFilter($in){
+function string_filter($in){
     $in = preg_replace('/[\x{1F600}-\x{1F64F}]/u', '', $in); # Emoticons
     $in = preg_replace('/[\x{1F300}-\x{1F5FF}]/u', '', $in); # Symbols & Pictographs
     $in = preg_replace('/[\x{1F680}-\x{1F6FF}]/u', '', $in); # Transport & Map Symbols
@@ -161,13 +161,13 @@ function stringFilter($in){
     return $in;
 }
 
-function formatName($name){
+function format_name($name){
     $name = preg_replace('/[^\p{L}\p{N}\s\'-]/u', '', $name);
     $name = mb_strtolower($name);
     $prepositions = ['de', 'da', 'do', 'dos', 'das', 'e', 'del', 'la', 'las', 'los', 'di', 'du', 'der', 'den', 'des', 'von', 'van', 'of', 'af'];
     $words = explode(' ', $name);
     $capitalized = array_map(function($word) use ($prepositions) {
-        return in_array($word, $prepositions) ? $word : capName($word);
+        return in_array($word, $prepositions) ? $word : cap_name($word);
     }, $words);
     $name = implode(' ', $capitalized);
     return preg_replace_callback('/(?:^|[-\'])(\p{L})/u', function ($matches) {
@@ -175,11 +175,11 @@ function formatName($name){
     }, $name);
 }
 
-function capName($name){
+function cap_name($name){
     return mb_strtoupper(mb_substr($name, 0, 1, 'utf-8'), 'utf-8') . mb_substr($name, 1, null, 'utf-8');
 }
 
-function verifySize($in,$min_size){
+function verify_size($in,$min_size){
     return is_string($in) ? mb_strlen($in) >= $min_size : false;
 }
 
@@ -230,7 +230,7 @@ function response($msgdata, $code = 200){
 	$response_key = ($code<400) ? 'response' : 'error';
 	$response[$response_key] = $msgdata;
 	http($code);
-	exit(jsonPretty($response));
+	exit(json_pretty($response));
 }
 
 function http($in){
@@ -304,7 +304,7 @@ function http($in){
         header("HTTP/1.0 $code");
 }
 
-function goodStatus($in){
+function good_status($in){
 	$out = filter_var($in, FILTER_VALIDATE_URL) ? get_headers($in) : 'This is not a valid URL.';
 	if (!empty($out[0]) AND (strpos($out[0],' 20')!==false OR strpos($out[0],' 30')!==false)) {
 		return true;
@@ -313,7 +313,7 @@ function goodStatus($in){
 	return false;
 }
 
-function getHttpResponseCode($in){
+function get_http_code($in){
     $out = get_headers($in);
     return substr($out[0], 9, 3);
 }
@@ -357,22 +357,65 @@ function request($url, $data = '', $method = 'GET', $type = true){
 }
 
 # JSON Fy Functions
-function jsonPretty($in){
+function json_pretty($in){
 	return json_encode($in, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK);
 }
 
-function jsonRead($file){
+function json_read($file){
 	$ctn = is_file($file) ? file_get_contents($file) : false;
 	return ($ctn) ? json_decode($ctn, 1) : false;
 }
 
-function jsonWrite($file, $data){
+function json_write($file, $data){
 	$mid = is_string($data) ? json_decode($data, 1) : $data;
-	$ctn = jsonPretty($mid);
+	$ctn = json_pretty($mid);
 	return ($ctn) ? file_put_contents($file, $ctn) : false;
 }
 
-function isValidJSON($in) {
+function is_valid_json($in) {
     json_decode($in);
     return (json_last_error() == JSON_ERROR_NONE);
+}
+
+function load_env(string $path, bool $override = false): void {
+    if (!is_readable($path)) {
+        return;
+    }
+
+    $lines = file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+
+    foreach ($lines as $line) {
+
+        $line = trim($line);
+
+        if ($line === '' || str_starts_with($line, '#') || str_starts_with($line, ';')) {
+            continue;
+        }
+
+        if (!str_contains($line, '=')) {
+            continue;
+        }
+
+        [$key, $value] = explode('=', $line, 2);
+
+        $key = trim($key);
+        $value = trim($value);
+
+        $rad = (str_starts_with($value, '"') && str_ends_with($value, '"'));
+        $ras =  (str_starts_with($value, "'") && str_ends_with($value, "'"));
+        
+        $value = ($rad || $ras) ? substr($value, 1, -1) : $value;
+
+        if (!$override && (isset($_ENV[$key]) || getenv($key) !== false)) {
+            continue;
+        }
+
+        $_ENV[$key] = $value;
+        $_SERVER[$key] = $value;
+        putenv("$key=$value");
+    }
+}
+
+function env(string $key, $default = null){
+    return $_ENV[$key] ?? getenv($key) ?? $default;
 }

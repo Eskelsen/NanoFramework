@@ -29,7 +29,7 @@ if (!($name && $email && $psw && $confpsw)) {
     return;
 }
 
-if (!verifySize($psw,8) OR !verifySize($confpsw,8)) {
+if (!verify_size($psw,8) OR !verify_size($confpsw,8)) {
     $message = '<div class="alert alert-warning" role="alert">A senha precisa ter mais de 8 caracteres.</div>';
     return;
 }
@@ -42,7 +42,7 @@ if (!($psw_ok = ($psw===$confpsw))) {
 tc_set(30); # el
 rc_set(); # el
 
-$name = formatName($name);
+$name = format_name($name);
 
 $email = filter_var($email, FILTER_SANITIZE_EMAIL);
 

@@ -9,12 +9,12 @@
   
   <meta name="author" content="Daniel Eskelsen">
   <meta name="theme-color" content="#4482A1">
-  <meta property="og:url" content="<?= completeRequest(); ?>">
+  <meta property="og:url" content="<?= complete_request(); ?>">
   <link rel="icon" href="<?= rel('ups/icon.png'); ?>">
 
   <title>Home » <?= $app; ?></title>
 
-  <link rel="canonical" href="<?= completeRequest(); ?>">
+  <link rel="canonical" href="<?= complete_request(); ?>">
   
   <style>
     @charset "UTF-8";
