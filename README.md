@@ -1,5 +1,13 @@
 # NanoFramework
-Smallest PHP framework
+O menor framework PHP
+
+## Doutrina
+
+O NanoFramework é guiado por três princípios:
+
+- Crueza — usar o material original
+- Explicitude — tornar o efeito visível
+- Planicidade — evitar profundidade estrutural
 
 ## Instalação
 Clone o repositório
