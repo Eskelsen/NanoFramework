@@ -1,5 +1,5 @@
 # Nanoframework
-O menor framework PHP
+O menor framework PHP (Smallest PHP framework).
 
 ## Doutrina
 
