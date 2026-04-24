@@ -75,7 +75,7 @@ $email = $_GET['email'] ?? $email;
     <meta name="author" content="Daniel Eskelsen">
     <meta name="theme-color" content="#4482A1">
     <meta property="og:url" content="<?= url('recuperar-acesso'); ?>">
-    <link rel="icon" href="<?= rel('ups/icon.png'); ?>">
+    <link rel="icon" href="<?= img('ups/icon.png'); ?>">
 
     <title>Recuperar acesso » <?= $app; ?></title>
 
@@ -135,7 +135,7 @@ $email = $_GET['email'] ?? $email;
   <body class="text-center">
   
       <form class="form-signin" method="post">
-      <img class="mb-4" src="<?= rel('ups/icon.png'); ?>" alt="" width="72" height="72">
+      <img class="mb-4" src="<?= img('ups/icon.png'); ?>" alt="" width="72" height="72">
       <h1 class="h3 mb-3 font-weight-normal">Recuperar acesso</h1>
 	  <p>Acesso a área administrativa</p>
 	  
