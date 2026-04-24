@@ -13,7 +13,7 @@ $psw        = post('psw');
 $confpsw    = post('confpsw');
 
 if ($rc = rc_get()) {
-    exit('Solicitação repetida.').
+    exit('Solicitação repetida.');
 }
 
 if ($tc = tc_get()) {
@@ -68,12 +68,18 @@ $_SESSION['time_hash'] = time() + 600;
 
 include_once APP . 'functions/mail.php';
 
+$id = rand(127000,256000);
+
 $firstname = explode(' ', $name)[0];
-$message = 'Olá ' . $firstname . ', receba as nossas boas-vindas à plataforma $app. Esperamos que tenha uma boa experiência.<br><br>Seu link de acesso é: <a href="' . $link . '">' . $link . '</a>';
-sendMail($email,$firstname,'Boas-vindas :: ' . $app,$message);
-sendMail('eskelsen@yahoo.com','Eskelsen',$app . ' :: Onboarding',"Conta criada: *#$id*, $name");
+$message   = 'Olá ' . $firstname . ', receba as nossas boas-vindas à plataforma ' . $app . '. ';
+$message  .=  'Esperamos que tenha uma boa experiência.<br><br>Seu link de acesso é: <a href="' . $link . '">' . $link . '</a>';
+
+// sendMail($email,$firstname,'Boas-vindas :: ' . $app,$message);
+// sendMail('eskelsen@yahoo.com','Eskelsen', $app . ' :: Onboarding',"Conta criada: *#$id*, $name");
+// error_log($message);
+error_log($app . ' :: Onboarding' . ' ' . "Conta criada: *#$id*, $name");
 
 $title	= 'Solicitação efetuada!';
-$message = 'Confirme seu e-mail para continuar o processo.' . $message;
+$message = 'Confirme seu e-mail para continuar o processo.';
 include APP . 'views/blank.php';
 exit;

@@ -30,7 +30,7 @@ define('DB_PASS', '');
 # Emails
 define('NAMEMAIL', 'Nanoframework');
 define('USERMAIL', 'nano@mfwks.com');
-define('PASSMAIL', 'xxxxxxxxxxxxxx);
+define('PASSMAIL', 'xxxxxxxxxxxxxx');
 define('HOSTMAIL', 'smtp.hostinger.com');
 
 # Basics
