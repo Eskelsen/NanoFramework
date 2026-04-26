@@ -22,11 +22,6 @@ function cli($msg, $savelog = false){
     }
 }
 
-function mrk(){
-	$_ENV['mrk'] = empty($_ENV['mrk']) ? 1 : ($_ENV['mrk'] + 1);
-	echo PHP_EOL . $_ENV['mrk'] . PHP_EOL;
-}
-
 function redirect($in = '/'){
 	header('Location: ' . url($in));
 	exit;
@@ -405,6 +400,6 @@ function load_env(string $path, bool $override = false): void {
     }
 }
 
-function env(string $key, $default = null){
-    return $_ENV[$key] ?? getenv($key) ?? $default;
+function env(string $key, $default = null) {
+    return $_ENV[$key] ?? (getenv($key) !== false ? getenv($key) : $default);
 }

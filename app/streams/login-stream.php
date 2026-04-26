@@ -9,7 +9,6 @@ $email_to = ($email) ? "?email=$email" : '';
 $label = 'Acesso a área administrativa';
 $label = 'Caso não recorde suas credencias, recupere o acesso <a href="recuperar-acesso?email=' . $email . '">via e-mail</a>';
 
-
 if (Session::on()) {
     redirect('test');
 }
